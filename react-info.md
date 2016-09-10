@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-Below you will find some information on how to perform common tasks.  
+Below you will find some information on how to perform common tasks.
 You can find the most recent version of this guide [here](https://github.com/facebookincubator/create-react-app/blob/master/template/README.md).
 
 ## Table of Contents
@@ -9,10 +9,10 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [Sending Feedback](#sending-feedback)
 - [Folder Structure](#folder-structure)
 - [Available Scripts](#available-scripts)
-  - [npm start](#npm-start)
-  - [npm test](#npm-test)
-  - [npm run build](#npm-run-build)
-  - [npm run eject](#npm-run-eject)
+	- [npm start](#npm-start)
+	- [npm test](#npm-test)
+	- [npm run build](#npm-run-build)
+	- [npm run eject](#npm-run-eject)
 - [Displaying Lint Output in the Editor](#displaying-lint-output-in-the-editor)
 - [Installing a Dependency](#installing-a-dependency)
 - [Importing a Component](#importing-a-component)
@@ -26,28 +26,28 @@ You can find the most recent version of this guide [here](https://github.com/fac
 - [Proxying API Requests in Development](#proxying-api-requests-in-development)
 - [Using HTTPS in Development](#using-https-in-development)
 - [Adding `<link>` and `<meta>` Tags](#adding-link-and-meta-tags)
-  - [Referring to Static Assets from `<link href>`](#referring-to-static-assets-from-link-href)
-  - [Generating Dynamic `<meta>` Tags on the Server](#generating-dynamic-meta-tags-on-the-server)
+	- [Referring to Static Assets from `<link href>`](#referring-to-static-assets-from-link-href)
+	- [Generating Dynamic `<meta>` Tags on the Server](#generating-dynamic-meta-tags-on-the-server)
 - [Running Tests](#running-tests)
-  - [Filename Conventions](#filename-conventions)
-  - [Command Line Interface](#command-line-interface)
-  - [Version Control Integration](#version-control-integration)
-  - [Writing Tests](#writing-tests)
-  - [Testing Components](#testing-components)
-  - [Using Third Party Assertion Libraries](#using-third-party-assertion-libraries)
-  - [Initializing Test Environment](#initializing-test-environment)
-  - [Focusing and Excluding Tests](#focusing-and-excluding-tests)
-  - [Coverage Reporting](#coverage-reporting)
-  - [Continuous Integration](#continuous-integration)
-  - [Disabling jsdom](#disabling-jsdom)
-  - [Experimental Snapshot Testing](#experimental-snapshot-testing)
+	- [Filename Conventions](#filename-conventions)
+	- [Command Line Interface](#command-line-interface)
+	- [Version Control Integration](#version-control-integration)
+	- [Writing Tests](#writing-tests)
+	- [Testing Components](#testing-components)
+	- [Using Third Party Assertion Libraries](#using-third-party-assertion-libraries)
+	- [Initializing Test Environment](#initializing-test-environment)
+	- [Focusing and Excluding Tests](#focusing-and-excluding-tests)
+	- [Coverage Reporting](#coverage-reporting)
+	- [Continuous Integration](#continuous-integration)
+	- [Disabling jsdom](#disabling-jsdom)
+	- [Experimental Snapshot Testing](#experimental-snapshot-testing)
 - [Deployment](#deployment)
-  - [Building for Relative Paths](#building-for-relative-paths)
-  - [GitHub Pages](#github-pages)
-  - [Heroku](#heroku)
-  - [Modulus](#modulus)
-  - [Now](#now)
-  - [Surge](#surge)
+	- [Building for Relative Paths](#building-for-relative-paths)
+	- [GitHub Pages](#github-pages)
+	- [Heroku](#heroku)
+	- [Modulus](#modulus)
+	- [Now](#now)
+	- [Surge](#surge)
 - [Something Missing?](#something-missing)
 
 ## Updating to New Releases
@@ -77,18 +77,18 @@ After creation, your project should look like this:
 
 ```
 my-app/
-  README.md
-  index.html
-  favicon.ico
-  node_modules/
-  package.json
-  src/
-    App.css
-    App.js
-    App.test.js
-    index.css
-    index.js
-    logo.svg
+	README.md
+	index.html
+	favicon.ico
+	node_modules/
+	package.json
+	src/
+		App.css
+		App.js
+		App.test.js
+		index.css
+		index.js
+		logo.svg
 ```
 
 For the project to build, **these files must exist with exact filenames**:
@@ -99,10 +99,10 @@ For the project to build, **these files must exist with exact filenames**:
 
 You can delete or rename the other files.
 
-You may create subdirectories inside `src`. For faster rebuilds, only files inside `src` are processed by Webpack.  
+You may create subdirectories inside `src`. For faster rebuilds, only files inside `src` are processed by Webpack.
 You need to **put any JS and CSS files inside `src`**, or Webpack won’t see them.
 
-You can, however, create more top-level directories.  
+You can, however, create more top-level directories.
 They will not be included in the production build so you can use them for things like documentation.
 
 ## Available Scripts
@@ -119,7 +119,7 @@ You will also see any lint errors in the console.
 
 ### `npm test`
 
-Launches the test runner in the interactive watch mode.  
+Launches the test runner in the interactive watch mode.
 See the section about [running tests](#running-tests) for more information.
 
 ### `npm run build`
@@ -160,14 +160,14 @@ Then make sure `package.json` of your project ends with this block:
 
 ```js
 {
-  // ...
-  "eslintConfig": {
-    "extends": "./node_modules/react-scripts/config/eslint.js"
-  }
+	// ...
+	"eslintConfig": {
+		"extends": "./node_modules/react-scripts/config/eslint.js"
+	}
 }
 ```
 
-Projects generated with `react-scripts@0.2.0` and higher should already have it.  
+Projects generated with `react-scripts@0.2.0` and higher should already have it.
 If you don’t need ESLint integration with your editor, you can safely delete those three lines from your `package.json`.
 
 Finally, you will need to install some packages *globally*:
@@ -188,7 +188,7 @@ npm install --save <library-name>
 
 ## Importing a Component
 
-This project setup supports ES6 modules thanks to Babel.  
+This project setup supports ES6 modules thanks to Babel.
 While you can still use `require()` and `module.exports`, we encourage you to use [`import` and `export`](http://exploringjs.com/es6/ch_modules.html) instead.
 
 For example:
@@ -199,9 +199,9 @@ For example:
 import React, { Component } from 'react';
 
 class Button extends Component {
-  render() {
-    // ...
-  }
+	render() {
+		// ...
+	}
 }
 
 export default Button; // Don’t forget to use export default!
@@ -215,9 +215,9 @@ import React, { Component } from 'react';
 import Button from './Button'; // Import a component from another file
 
 class DangerButton extends Component {
-  render() {
-    return <Button color="red" />;
-  }
+	render() {
+		return <Button color="red" />;
+	}
 }
 
 export default DangerButton;
@@ -243,7 +243,7 @@ This project setup uses [Webpack](https://webpack.github.io/) for handling all a
 
 ```css
 .Button {
-  padding: 20px;
+	padding: 20px;
 }
 ```
 
@@ -254,10 +254,10 @@ import React, { Component } from 'react';
 import './Button.css'; // Tell Webpack that Button.js uses these styles
 
 class Button extends Component {
-  render() {
-    // You can use them as regular CSS styles
-    return <div className="Button" />;
-  }
+	render() {
+		// You can use them as regular CSS styles
+		return <div className="Button" />;
+	}
 }
 ```
 
@@ -275,9 +275,9 @@ For example, this:
 
 ```css
 .App {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
 }
 ```
 
@@ -285,16 +285,16 @@ becomes this:
 
 ```css
 .App {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: horizontal;
+	-webkit-box-direction: normal;
+			-ms-flex-direction: row;
+					flex-direction: row;
+	-webkit-box-align: center;
+			-ms-flex-align: center;
+					align-items: center;
 }
 ```
 
@@ -315,8 +315,8 @@ import logo from './logo.png'; // Tell Webpack this JS file uses this image
 console.log(logo); // /logo.84287d09.png
 
 function Header() {
-  // Import result is the URL of your image
-  return <img src={logo} alt="Logo" />;
+	// Import result is the URL of your image
+	return <img src={logo} alt="Logo" />;
 }
 
 export default function Header;
@@ -326,7 +326,7 @@ This works in CSS too:
 
 ```css
 .Logo {
-  background-image: url(./logo.png);
+	background-image: url(./logo.png);
 }
 ```
 
@@ -368,26 +368,26 @@ Flow typing is currently [not supported out of the box](https://github.com/faceb
 
 ```js
 node_modules/fbjs/lib/Deferred.js.flow:60
- 60:     Promise.prototype.done.apply(this._promise, arguments);
-                           ^^^^ property `done`. Property not found in
+ 60:		 Promise.prototype.done.apply(this._promise, arguments);
+													 ^^^^ property `done`. Property not found in
 495: declare class Promise<+R> {
-     ^ Promise. See lib: /private/tmp/flow/flowlib_34952d31/core.js:495
+		 ^ Promise. See lib: /private/tmp/flow/flowlib_34952d31/core.js:495
 
 node_modules/fbjs/lib/shallowEqual.js.flow:29
- 29:     return x !== 0 || 1 / (x: $FlowIssue) === 1 / (y: $FlowIssue);
-                                   ^^^^^^^^^^ identifier `$FlowIssue`. Could not resolve name
+ 29:		 return x !== 0 || 1 / (x: $FlowIssue) === 1 / (y: $FlowIssue);
+																	 ^^^^^^^^^^ identifier `$FlowIssue`. Could not resolve name
 
 src/App.js:3
-  3: import logo from './logo.svg';
-                      ^^^^^^^^^^^^ ./logo.svg. Required module not found
+	3: import logo from './logo.svg';
+											^^^^^^^^^^^^ ./logo.svg. Required module not found
 
 src/App.js:4
-  4: import './App.css';
-            ^^^^^^^^^^^ ./App.css. Required module not found
+	4: import './App.css';
+						^^^^^^^^^^^ ./App.css. Required module not found
 
 src/index.js:5
-  5: import './index.css';
-            ^^^^^^^^^^^^^ ./index.css. Required module not found
+	5: import './index.css';
+						^^^^^^^^^^^^^ ./index.css. Required module not found
 ```
 
 To fix this, change your `.flowconfig` to look like this:
@@ -436,14 +436,14 @@ consume a secret defined in the environment inside a `<form>`:
 
 ```jsx
 render() {
-  return (
-    <div>
-      <small>You are running this application in <b>{process.env.NODE_ENV}</b> mode.</small>
-      <form>
-        <input type="hidden" defaultValue={process.env.REACT_APP_SECRET_CODE} />
-      </form>
-    </div>
-  );
+	return (
+		<div>
+			<small>You are running this application in <b>{process.env.NODE_ENV}</b> mode.</small>
+			<form>
+				<input type="hidden" defaultValue={process.env.REACT_APP_SECRET_CODE} />
+			</form>
+		</div>
+	);
 }
 ```
 
@@ -473,10 +473,10 @@ its value set to `abcdef`, and the bold text will show the environment provided 
 
 ```html
 <div>
-  <small>You are running this application in <b>development</b> mode.</small>
-  <form>
-    <input type="hidden" value="abcdef" />
-  </form>
+	<small>You are running this application in <b>development</b> mode.</small>
+	<form>
+		<input type="hidden" value="abcdef" />
+	</form>
 </div>
 ```
 
@@ -484,7 +484,7 @@ Having access to the `NODE_ENV` is also useful for performing actions conditiona
 
 ```js
 if (process.env.NODE_ENV !== 'production') {
-  analytics.disable();
+	analytics.disable();
 }
 ```
 
@@ -496,13 +496,13 @@ Check out [this tutorial](https://www.fullstackreact.com/articles/using-create-r
 
 >Note: this feature is available with `react-scripts@0.2.3` and higher.
 
-People often serve the front-end React app from the same host and port as their backend implementation.  
+People often serve the front-end React app from the same host and port as their backend implementation.
 For example, a production setup might look like this after the app is deployed:
 
 ```
-/             - static server returns index.html with React app
-/todos        - static server returns index.html with React app
-/api/todos    - server handles any /api/* requests using the backend implementation
+/						 - static server returns index.html with React app
+/todos				- static server returns index.html with React app
+/api/todos		- server handles any /api/* requests using the backend implementation
 ```
 
 Such setup is **not** required. However, if you **do** have a setup like this, it is convenient to write requests like `fetch('/api/todos')` without worrying about redirecting them to another host or port during development.
@@ -510,7 +510,7 @@ Such setup is **not** required. However, if you **do** have a setup like this, i
 To tell the development server to proxy any unknown requests to your API server in development, add a `proxy` field to your `package.json`, for example:
 
 ```js
-  "proxy": "http://localhost:4000",
+	"proxy": "http://localhost:4000",
 ```
 
 This way, when you `fetch('/api/todos')` in development, the development server will recognize that it’s not a static asset, and will proxy your request to `http://localhost:4000/api/todos` as a fallback. The development server will only attempt to send requests without a `text/html` accept header to the proxy.
@@ -523,7 +523,7 @@ Fetch API cannot load http://localhost:4000/api/todos. No 'Access-Control-Allow-
 
 Keep in mind that `proxy` only has effect in development (with `npm start`), and it is up to you to ensure that URLs like `/api/todos` point to the right thing in production. You don’t have to use the `/api` prefix. Any unrecognized request without a `text/html` accept header will be redirected to the specified `proxy`.
 
-Currently the `proxy` option only handles HTTP requests, and it won’t proxy WebSocket connections.  
+Currently the `proxy` option only handles HTTP requests, and it won’t proxy WebSocket connections.
 If the `proxy` option is **not** flexible enough for you, alternatively you can:
 
 * Enable CORS on your server ([here’s how to do it for Express](http://enable-cors.org/server_expressjs.html)).
@@ -572,7 +572,7 @@ However, you can’t `import` anything from an HTML file. This is why Create Rea
 <link rel="icon" href="./src/favicon/favicon-64.png" sizes="64x64" type="image/png">
 ```
 
-Webpack will parse those `<link href>` attributes and replace them with real paths.  
+Webpack will parse those `<link href>` attributes and replace them with real paths.
 In production, they will become:
 
 ```html
@@ -610,9 +610,9 @@ Since Create React App doesn’t support server rendering, you might be wonderin
 ```html
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta property="og:title" content="$OG_TITLE">
-    <meta property="og:description" content="$OG_DESCRIPTION">
+	<head>
+		<meta property="og:title" content="$OG_TITLE">
+		<meta property="og:description" content="$OG_DESCRIPTION">
 ```
 
 Then, on the server, regardless of the backend you use, you can read `index.html` into memory and replace `$OG_TITLE`, `$OG_DESCRIPTION`, and any other placeholders with values depending on the current URL. Just make sure to sanitize and escape the interpolated values so that they are safe to embed into HTML!
@@ -621,7 +621,7 @@ If you use a Node server, you can even share the route matching logic between th
 
 ## Running Tests
 
->Note: this feature is available with `react-scripts@0.3.0` and higher.  
+>Note: this feature is available with `react-scripts@0.3.0` and higher.
 >[Read the migration guide to learn how to enable it in older projects!](https://github.com/facebookincubator/create-react-app/blob/master/CHANGELOG.md#migrating-from-023-to-030)
 
 Create React App uses [Jest](https://facebook.github.io/jest/) as its test runner. To prepare for this integration, we did a [major revamp](https://facebook.github.io/jest/blog/2016/09/01/jest-15.html) of Jest so if you heard bad things about it years ago, give it another try.
@@ -670,12 +670,12 @@ Jest provides a built-in `expect()` global function for making assertions. A bas
 import sum from './sum';
 
 it('sums numbers', () => {
-  expect(sum(1, 2)).toEqual(3);
-  expect(sum(2, 2)).toEqual(4);
+	expect(sum(1, 2)).toEqual(3);
+	expect(sum(2, 2)).toEqual(4);
 });
 ```
 
-All `expect()` matchers supported by Jest are [extensively documented here](http://facebook.github.io/jest/docs/api.html#expect-value).  
+All `expect()` matchers supported by Jest are [extensively documented here](http://facebook.github.io/jest/docs/api.html#expect-value).
 You can also use [`jest.fn()` and `expect(fn).toBeCalled()`](http://facebook.github.io/jest/docs/api.html#tobecalled) to create “spies” or mock functions.
 
 ### Testing Components
@@ -690,8 +690,8 @@ import ReactDOM from 'react-dom';
 import App from './App';
 
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
+	const div = document.createElement('div');
+	ReactDOM.render(<App />, div);
 });
 ```
 
@@ -711,7 +711,7 @@ import { shallow } from 'enzyme';
 import App from './App';
 
 it('renders without crashing', () => {
-  shallow(<App />);
+	shallow(<App />);
 });
 ```
 
@@ -727,14 +727,14 @@ import { shallow } from 'enzyme';
 import App from './App';
 
 it('renders welcome message', () => {
-  const wrapper = shallow(<App />);
-  const welcome = <h2>Welcome to React</h2>;
-  // expect(wrapper.contains(welcome)).to.equal(true);
-  expect(wrapper.contains(welcome)).toEqual(true);
+	const wrapper = shallow(<App />);
+	const welcome = <h2>Welcome to React</h2>;
+	// expect(wrapper.contains(welcome)).to.equal(true);
+	expect(wrapper.contains(welcome)).toEqual(true);
 });
 ```
 
-All Jest matchers are [extensively documented here](http://facebook.github.io/jest/docs/api.html#expect-value).  
+All Jest matchers are [extensively documented here](http://facebook.github.io/jest/docs/api.html#expect-value).
 Nevertheless you can use a third-party assertion library like Chai if you want to, as described below.
 
 ### Using Third Party Assertion Libraries
@@ -761,21 +761,21 @@ For example:
 #### `src/setupTests.js`
 ```js
 const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  clear: jest.fn()
+	getItem: jest.fn(),
+	setItem: jest.fn(),
+	clear: jest.fn()
 };
 global.localStorage = localStorageMock
 ```
 
 ### Focusing and Excluding Tests
 
-You can replace `it()` with `xit()` to temporarily exclude a test from being executed.  
+You can replace `it()` with `xit()` to temporarily exclude a test from being executed.
 Similarly, `fit()` lets you focus on a specific test without running any other tests.
 
 ### Coverage Reporting
 
-Jest has an integrated coverage reporter that works well with ES6 and requires no configuration.  
+Jest has an integrated coverage reporter that works well with ES6 and requires no configuration.
 Run `npm test -- --coverage` (note extra `--` in the middle) to include a coverage report like this:
 
 ![coverage report](http://i.imgur.com/5bFhnTS.png)
@@ -809,14 +809,14 @@ If you find yourself doing this often in development, please [file an issue](htt
 By default, the `package.json` of the generated project looks like this:
 
 ```js
-  // ...
-  "scripts": {
-    // ...
-    "test": "react-scripts test --env=jsdom"
-  }
+	// ...
+	"scripts": {
+		// ...
+		"test": "react-scripts test --env=jsdom"
+	}
 ```
 
-If you know that none of your tests depend on [jsdom](https://github.com/tmpvar/jsdom), you can safely remove `--env=jsdom`, and your tests will run faster.  
+If you know that none of your tests depend on [jsdom](https://github.com/tmpvar/jsdom), you can safely remove `--env=jsdom`, and your tests will run faster.
 To help you make up your mind, here is a list of APIs that **need jsdom**:
 
 * Any browser globals like `window` and `document`
@@ -841,11 +841,11 @@ This feature is experimental and still [has major usage issues](https://github.c
 
 ## Building for Relative Paths
 
-By default, Create React App produces a build assuming your app is hosted at the server root.  
+By default, Create React App produces a build assuming your app is hosted at the server root.
 To override this, specify the `homepage` in your `package.json`, for example:
 
 ```js
-  "homepage": "http://mywebsite.com/relativepath",
+	"homepage": "http://mywebsite.com/relativepath",
 ```
 
 This will let Create React App correctly infer the root path to use in the generated HTML file.
@@ -857,10 +857,10 @@ This will let Create React App correctly infer the root path to use in the gener
 Open your `package.json` and add a `homepage` field:
 
 ```js
-  "homepage": "http://myusername.github.io/my-app",
+	"homepage": "http://myusername.github.io/my-app",
 ```
 
-**The above step is important!**  
+**The above step is important!**
 Create React App uses the `homepage` field to determine the root URL in the built HTML file.
 
 Now, whenever you run `npm run build`, you will see a cheat sheet with a sequence of commands to deploy to GitHub pages:
@@ -883,7 +883,7 @@ Note that GitHub Pages doesn't support routers that use the HTML5 `pushState` hi
 
 ### Heroku
 
-Use the [Heroku Buildpack for Create React App](https://github.com/mars/create-react-app-buildpack).  
+Use the [Heroku Buildpack for Create React App](https://github.com/mars/create-react-app-buildpack).
 You can find instructions in [Deploying React with Zero Configuration](https://blog.heroku.com/deploying-react-with-zero-configuration).
 
 ### Modulus
@@ -899,18 +899,18 @@ See [this example](https://github.com/xkawi/create-react-app-now) for a zero-con
 Install the Surge CLI if you haven't already by running `npm install -g surge`. Run the `surge` command and log in you or create a new account. You just need to specify the *build* folder and your custom domain, and you are done.
 
 ```sh
-              email: email@domain.com
-           password: ********
-       project path: /path/to/project/build
-               size: 7 files, 1.8 MB
-             domain: create-react-app.surge.sh
-             upload: [====================] 100%, eta: 0.0s
-   propagate on CDN: [====================] 100%
-               plan: Free
-              users: email@domain.com
-         IP Address: X.X.X.X
+							email: email@domain.com
+					 password: ********
+			 project path: /path/to/project/build
+							 size: 7 files, 1.8 MB
+						 domain: create-react-app.surge.sh
+						 upload: [====================] 100%, eta: 0.0s
+	 propagate on CDN: [====================] 100%
+							 plan: Free
+							users: email@domain.com
+				 IP Address: X.X.X.X
 
-    Success! Project is published and running at create-react-app.surge.sh
+		Success! Project is published and running at create-react-app.surge.sh
 ```
 
 Note that in order to support routers that use html5 `pushState` API, you may want to rename the `index.html` in your build folder to `200.html` before deploying to Surge. This [ensures that every URL falls back to that file](https://surge.sh/help/adding-a-200-page-for-client-side-routing).
