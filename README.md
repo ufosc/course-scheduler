@@ -6,11 +6,11 @@ A dynamic course scheduler for planning out college semesters.
 
 To start working on the project, first install [node](https://nodejs.org/). Version 4 or higher.
 
-Clone this repository.
+Clone this repository (get the url from the green "Clone or download" button).
 
 ```
-cd go/to/directory
 git clone repository-url
+cd course-scheduler
 ```
 
 Install dependencies with node.
