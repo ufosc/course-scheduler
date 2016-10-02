@@ -16,7 +16,7 @@ let semesterList = [
 			},
 			{
 				theId: '2',
-				theName: 'Code 2',
+				theName: 'Test 2',
 				theCredits: '3',
 			},
 			{
@@ -32,7 +32,7 @@ let semesterList = [
 		theCourses: [
 			{
 				theId: '1',
-				theName: 'Code 4',
+				theName: 'Test 4',
 				theCredits: '3',
 			},
 			{
@@ -53,7 +53,7 @@ let semesterList = [
 		theCourses: [
 			{
 				theId: '1',
-				theName: 'Code 7',
+				theName: 'code 7',
 				theCredits: '3',
 			},
 			{
@@ -63,7 +63,7 @@ let semesterList = [
 			},
 			{
 				theId: '3',
-				theName: 'Code 9',
+				theName: 'test 9',
 				theCredits: '2',
 			}
 		]
