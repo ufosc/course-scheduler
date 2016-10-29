@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Course from './Course.js'
+import CourseView from './CourseView.js'
 
 // This is a single semester and it's classes. It should derive total credit hours from the classes.
-class Semester extends Component
+class SemesterView extends Component
 {
 	// Create html for individual semsters and classes
 	render()
@@ -27,7 +27,7 @@ class Semester extends Component
 						{/* Go through all the classes */}
 						{filteredCourses.map((aCourse) =>
 							{
-								return <Course course={aCourse} key={aCourse.theId}/>
+								return <CourseView course={aCourse} key={aCourse.theId}/>
 							})
 						}
 
@@ -38,4 +38,4 @@ class Semester extends Component
 	}
 }
 
-export default Semester;
+export default SemesterView;

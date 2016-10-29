@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Semester from './Semester.js'
+import SemesterView from './SemesterView.js'
 
 // This displays all the semester and their respective classes
-class SemesterList extends Component
+class SemesterListView extends Component
 {
 
 	// Create state for search
@@ -35,7 +35,7 @@ class SemesterList extends Component
 					{ /* Go through the entire list of semesters */}
 					{this.props.semesterList.map((aSemester) =>
 						{
-							return <Semester semesterInfo={aSemester}
+							return <SemesterView semesterInfo={aSemester}
 								filter={this.state.theSearch}
 								key={aSemester.theId}/>
 						})
@@ -46,4 +46,4 @@ class SemesterList extends Component
 	}
 }
 
-export default SemesterList;
+export default SemesterListView;

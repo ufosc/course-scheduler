@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 // This is a single class. It contains name, difficulty, credits, etc
-class Course extends Component
+class CourseView extends Component
 {
 	// Create html for each course
 	render()
@@ -17,4 +17,4 @@ class Course extends Component
 	}
 }
 
-export default Course;
+export default CourseView;
