@@ -1,0 +1,7 @@
+// Run tsc -w from this directory and all files will automatically be compiled
+
+{
+    "compilerOptions": {
+        "target": "es5"
+    }
+}
