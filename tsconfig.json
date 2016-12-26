@@ -1,8 +1,16 @@
-// Run tsc -w from this directory and all files will automatically be compiled
 
 {
-    "compilerOptions": {
-        "target": "es5",
-        "module": "commonjs"
-    }
+  "compilerOptions": {
+    "jsx": "react",
+    "module": "commonjs",
+    //"noImplicitAny": true,
+    "outDir": "./build/",
+    "preserveConstEnums": true,
+    "removeComments": true,
+    "target": "ES5",
+    "sourceMap": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

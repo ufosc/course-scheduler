@@ -1,33 +1,58 @@
 # Course Scheduler
 
-A dynamic course scheduler for planning out college semesters.
+A dynamic course planner for planning out college semesters. 
+
+## Technologies
+
+We are using TypeScript with React to write this project. Other tools that are used are Node (with npm), Webpack, and Typings. 
+
+[TypeScript](http://www.typescriptlang.org/) is a super-set of JavaScript that adds type safety and some nice features (like inheritance). This makes it feel more like other Object Oriented languages like Java. It compiles down to JavaScript, as specified in the tsconfig.json.
+ 
+[React](https://facebook.github.io/react/) is a JavaScript framework that focuses on user interfaces. It improves efficiency by only changing what needs to changes. It also keeps out of the way of other functions. React uses jsx (or tsx in our case) files to render html components.
+
+[Node](https://nodejs.org/) is a JavaScript runtime, however we use it's package manager, npm to keep track of various libraries we use, such as react. It's config file is package.json.
+
+[Webpack](https://webpack.github.io/) is a module builder that combines all JavaScript into one succinct file. It also provides multiple tools such as a live reloader. It's config file webpack.config.js.
+
+[Typings](https://github.com/typings/typings) is a TypeScript definition manager. It allows editors to easily plug into different systems (such as React) and show autocomplete. It's config file is typings.json.
 
 ## Getting Started
 
 To start working on the project, first install [node](https://nodejs.org/). Version 4 or higher.
 
-Clone this repository (get the url from the green "Clone or download" button).
+Clone this repository.
 
 ```
-git clone repository-url
+git clone https://github.com/ufosc/course-scheduler.git
 cd course-scheduler
 ```
 
-Install dependencies with node.
+Install dependencies with Node and Typings. 
 
 ```
 npm install
+node_modules/.bin/typings install
 ```
 
-Run the server to have the project opened in your default browser. It will also display error messages.
+To compile everything with output. 
 
 ```
-npm start
+npm run build
 ```
 
-If you want more information about react apps and node, read the react-info.md.
+Then open index.html in your browser. 
+
+To have it compile on change (still need to refresh browser).
+
+```
+npm run dev
+``` 
 
 ### Resources
+
+#### Setting Up
+
+- [Typescript, Webpack, and React](https://medium.com/@fay_jai/getting-started-with-reactjs-typescript-and-webpack-95dcaa0ed33c#.icbywodz2)
 
 #### React Tutorials
 
