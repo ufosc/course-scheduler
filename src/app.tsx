@@ -4,7 +4,7 @@
 
 import * as React from "react";
 import * as ReactDOM from "react-dom";
-import Hello from "./Hello";
+import Hello from "./views/Hello";
 
 ReactDOM.render(
   <Hello word="World!" />,
