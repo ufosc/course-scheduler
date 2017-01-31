@@ -13,8 +13,5 @@ build
 .DS_Store
 npm-debug.log
 
-# VirtualEnv
-bin
-include
-lib
-pip-selfcheck.json
+# Scraped data / csvs go here
+db
