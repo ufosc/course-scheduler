@@ -2,6 +2,10 @@
 
 A dynamic course scheduler for planning out college semesters.
 
+## Note Before Reading 
+
+The front end and organization of the project has changed significantly since the below was written, so please check the current dev state for a better idea of the current state. 
+
 ## Getting Started
 
 To start working on the project, first install [node](https://nodejs.org/). Version 4 or higher.
