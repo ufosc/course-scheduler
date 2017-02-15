@@ -4,7 +4,7 @@ A dynamic course scheduler for planning out college semesters.
 
 ## Note Before Reading 
 
-The front end and organization of the project has changed significantly since the below was written, so please check the current dev state for a better idea of the current state. 
+The front end and organization of the project **has changed significantly** since the below was written, so please check the current dev branches for a better idea of the current state. Look at the [Issues](https://github.com/ufosc/course-scheduler/issues) and [Projects](https://github.com/ufosc/course-scheduler/projects) page for current tasks. 
 
 ## Getting Started
 
@@ -46,23 +46,3 @@ If you want more information about react apps and node, read the react-info.md.
 - [React Apps](https://github.com/facebookincubator/create-react-app)
 - [Drag and Drop](https://gaearon.github.io/react-dnd/)
 - [Material Design Components](http://www.material-ui.com/#/)
-
-## TODO
-- [ ] Load course data from UF
-- [ ] Order classes
-	- [ ] Pre-reqs
-	- [ ] Suggested pre-reqs
-- [ ] Add already taken classes
-- [ ] Interactive reordering
-	- [ ] Feedback
-		- [ ] Wrong order
-		- [ ] Excess Hours
-		- [ ] Minimum Hours
-- [ ] Current semester view
-	- [ ] Show possible times
-	- [ ] Help choose available ones by preferences
-- [ ] Search classes
-- [ ] Rating for class/professor
-- [ ] Predefined specialties (database comp sci)
-- [ ] Add minor/major
-- [ ] Save course list
