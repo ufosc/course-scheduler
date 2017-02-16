@@ -53,6 +53,25 @@ def fetch_courses(is_verbose=True):
     courses_nested_list = [r['COURSES'] for r in responses]
     return [course for sublist in courses_nested_list for course in sublist]
 
+
+def fetch_prereqs():
+    """
+    To be worked on. Below are some thoughts I'm having.
+    
+    1. Pass in our db.json and scrape all course codes using regular expressions.
+    2. Append the scraped course codes to an array. 
+    3. For each index of the array, append that course code to the endpoint string.
+       (ex. https://one.uf.edu/apix/soc/cdesc/DDDCCCCL)
+
+       DDD = Department 
+       CCCC = Course Number
+       L = Lab (optional)
+
+    4. Query the API
+    5. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json.
+    5b. If there are no prerequisties, append 'NULL' to the newly created prereqs field in db.json.
+    """
+
 def write_db(course_list, kind='json', path='.', separator=','):
     """
     Writes the JSON array to a database using pandas as the middleware
