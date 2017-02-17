@@ -78,7 +78,7 @@ def write_db(course_list, kind='json', path='.', separator=','):
     Writes the JSON array to a database.
     """
     script_dir = os.path.dirname(__file__)
-
+    
     # Name the output file is called changed temporarily for testing.
     out_path = os.path.join('db.' + script_dir + kind)
     with open(out_path, 'w+') as outfile:
