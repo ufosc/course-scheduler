@@ -5,15 +5,12 @@ import os
 from progressbar import ProgressBar, Percentage, Bar, AdaptiveETA, Timer, Counter, FormatLabel
 import requests
 
-import pprint
-
+# Defines the address from which we fetch all the courses.
 ONE_UF_API_ENDPOINT = 'https://one.uf.edu/apix/soc/schedule'
 
+
+# Fetches courses from ONE.UF API endpoint, shows a handy progressbar if verbosity is true.
 def fetch_courses(is_verbose=True):
-    """
-    Fetches courses from ONE.UF API endpoint, shows a handy progressbar if 
-    verbosity is set to true
-    """
     payload = {'category': 'RES', 'term': '20168', 'last-row':'0'}
     responses = list()
     total_rows = 0
@@ -31,7 +28,7 @@ def fetch_courses(is_verbose=True):
         )
     
     if is_verbose:
-        print('Fetching courses from one.uf.edu')
+        print('Fetching courses from one.uf.edu!')
         bar.max_value = total_rows
         bar.update(0)
 
@@ -49,41 +46,47 @@ def fetch_courses(is_verbose=True):
             break
     
     if is_verbose:
-        print('Recieved course data from one.uf.edu')
+        print('Recieved course data from one.uf.edu!')
     courses_nested_list = [r['COURSES'] for r in responses]
     return [course for sublist in courses_nested_list for course in sublist]
 
-
+# Fetches the course prerequistes and appends them to a new field in the .json file.
 def fetch_prereqs():
-    """
-    To be worked on. Below are some thoughts I'm having.
     
-    1. Pass in our db.json and scrape all course codes using regular expressions.
-    2. Append the scraped course codes to an array. 
-    3. For each index of the array, append that course code to the endpoint string.
+    #Pass in our db.json and scrape all data. 
+    with open('db.json') as database_json:    
+        course_data = json.load(database_json)
+        print(course_data)
+
+    """
+    2. Scrape *only* course code data (DDDCCCCL) using regular expressions.
+    3. Add that scraped course code data to an array.  
+    4. For each element of the array, append that course code to a predefined endpoint string.
        (ex. https://one.uf.edu/apix/soc/cdesc/DDDCCCCL)
 
        DDD = Department 
        CCCC = Course Number
        L = Lab (optional)
 
-    4. Query the API
-    5. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json.
-    5b. If there are no prerequisties, append 'NULL' to the newly created prereqs field in db.json.
+    5. Query the API usin that endpoint string.
+    6. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json.
+    6b. If there are no prerequisties, append 'NULL' to the newly created prereqs field in db.json.
     """
 
 def write_db(course_list, kind='json', path='.', separator=','):
     """
-    Writes the JSON array to a database using pandas as the middleware
+    Writes the JSON array to a database.
     """
     script_dir = os.path.dirname(__file__)
-    out_path = os.path.join(script_dir, path + '/db.' + kind)
+
+    # Name the output file is called changed temporarily for testing.
+    out_path = os.path.join('db.' + script_dir + kind)
     with open(out_path, 'w+') as outfile:
         json.dump(course_list, outfile, indent=4)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(
-            description='Fetches course data from https://one.uf.edu/'
+            description='Fetches course data from https://one.uf.edu/!'
     )
     parser.add_argument(
         '-q', dest='quiet', 
@@ -96,5 +99,9 @@ if __name__ == '__main__':
     opts = parser.parse_args()
     is_verbose = not opts.quiet
     course_list = fetch_courses(is_verbose)
-    # write_db(course_list, kind='csv', path='../db')
-    write_db(course_list, kind='json', path='../db')
+
+    # Path the db is written to has changed temporarily for testing.
+    write_db(course_list, kind='json', path='../')
+
+    # Call fetch_prereqs() to test it out. Overwhelms the console currently, be careful!
+    fetch_prereqs()
