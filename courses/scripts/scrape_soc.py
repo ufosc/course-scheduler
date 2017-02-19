@@ -4,6 +4,8 @@ import json
 import os
 from progressbar import ProgressBar, Percentage, Bar, AdaptiveETA, Timer, Counter, FormatLabel
 import requests
+# Needed for using regular expressions.
+import re
 
 # Defines the address from which we fetch all the courses.
 ONE_UF_API_ENDPOINT = 'https://one.uf.edu/apix/soc/schedule'
@@ -53,14 +55,18 @@ def fetch_courses(is_verbose=True):
 # Fetches the course prerequistes and appends them to a new field in the .json file.
 def fetch_prereqs():
     
-    #Pass in our db.json and scrape all data. 
-    with open('db.json') as database_json:    
-        course_data = json.load(database_json)
-        print(course_data)
+    # Creates a list to hold our scraped courses. 
+    scraped_course_list = []
 
+    # Performs a regular expression search on the database file.
+    with open('db.json') as database_json: 
+    	for line in database_json
+    	    #Add that scraped course code data to a list. 
+            scraped_course_list.append(re.search('[A-Z]{3}[0-9]{4}[A-Z]*', line))
+       
+    print scraped_course_list
+    
     """
-    2. Scrape *only* course code data (DDDCCCCL) using regular expressions.
-    3. Add that scraped course code data to an array.  
     4. For each element of the array, append that course code to a predefined endpoint string.
        (ex. https://one.uf.edu/apix/soc/cdesc/DDDCCCCL)
 
@@ -68,7 +74,7 @@ def fetch_prereqs():
        CCCC = Course Number
        L = Lab (optional)
 
-    5. Query the API usin that endpoint string.
+    5. Query the API using that endpoint string.
     6. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json.
     6b. If there are no prerequisties, append 'NULL' to the newly created prereqs field in db.json.
     """
