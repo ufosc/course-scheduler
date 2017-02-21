@@ -60,11 +60,11 @@ def fetch_prereqs():
 
     # Performs a regular expression search on the database file.
     with open('db.json') as database_json: 
-    	for line in database_json
+    	for line in database_json:
     	    #Add that scraped course code data to a list. 
             scraped_course_list.append(re.search('[A-Z]{3}[0-9]{4}[A-Z]*', line))
        
-    print scraped_course_list
+    print (scraped_course_list)
     
     """
     4. For each element of the array, append that course code to a predefined endpoint string.
