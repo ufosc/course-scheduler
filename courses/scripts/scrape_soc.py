@@ -64,7 +64,7 @@ def fetch_prereqs():
     # Performs a regular expression search on the database file.
     with open('db.json') as database_json: 
     	for line in database_json:
-    	    prelim_scraped_course_list.append(re.search('[A-Z]{3}[0-9]{4}[A-Z]*', line))
+    	    prelim_scraped_course_list.append(re.search('[code: ][A-Z]{3}[0-9]{4}[A-Z]*', line))
     
     # Throws away most data, which were unmatched lines defined by NoneType.
     for element in prelim_scraped_course_list:
@@ -76,7 +76,7 @@ def fetch_prereqs():
     print (len(scraped_course_list))
     
     """For each element of the array, append that course code to a predefined endpoint string.
-    ONE_UF_API_CDESC_ENDPOINT = 'https://one.uf.edu/apix/soc/cdesc/DDDCCCCL'
+    ONE_UF_API_CDESC_ENDPOINT = 'https://one.uf.edu/apix/soc/cdesc   DDDCCCCL'
 
     DDD = Department
     CCCC = Course Code
