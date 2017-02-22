@@ -6,6 +6,8 @@ from progressbar import ProgressBar, Percentage, Bar, AdaptiveETA, Timer, Counte
 import requests
 # Needed for using regular expressions.
 import re
+# Needed for referencing 'NoneType'.
+from types import *
 
 # Defines the address from which we fetch all the courses.
 ONE_UF_API_ENDPOINT = 'https://one.uf.edu/apix/soc/schedule'
@@ -56,23 +58,29 @@ def fetch_courses(is_verbose=True):
 def fetch_prereqs():
     
     # Creates a list to hold our scraped courses. 
+    prelim_scraped_course_list = []
     scraped_course_list = []
 
     # Performs a regular expression search on the database file.
     with open('db.json') as database_json: 
     	for line in database_json:
-    	    #Add that scraped course code data to a list. 
-            scraped_course_list.append(re.search('[A-Z]{3}[0-9]{4}[A-Z]*', line))
-       
-    print (scraped_course_list)
+    	    prelim_scraped_course_list.append(re.search('[A-Z]{3}[0-9]{4}[A-Z]*', line))
     
-    """
-    4. For each element of the array, append that course code to a predefined endpoint string.
-       (ex. https://one.uf.edu/apix/soc/cdesc/DDDCCCCL)
+    # Throws away most data, which were unmatched lines defined by NoneType.
+    for element in prelim_scraped_course_list:
+       if element is not None:
+         print (element)
+         scraped_course_list.append(element)
 
-       DDD = Department 
-       CCCC = Course Number
-       L = Lab (optional)
+    print('length: ')
+    print (len(scraped_course_list))
+    
+    """For each element of the array, append that course code to a predefined endpoint string.
+    ONE_UF_API_CDESC_ENDPOINT = 'https://one.uf.edu/apix/soc/cdesc/DDDCCCCL'
+
+    DDD = Department
+    CCCC = Course Code
+    L = Lab (optional)
 
     5. Query the API using that endpoint string.
     6. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json.
