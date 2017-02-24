@@ -59,9 +59,9 @@ if __name__ == '__main__':
         category = sys.argv[2][2:]
         
     csp = course_spider.CourseSpider(outdir='./db/', term=term, category=category)
-    psp = prereq_spider.PrereqsSpider(file="db/courses_%s_%s.json" % (term, category))
+    # psp = prereq_spider.PrereqsSpider(file="db/courses_%s_%s.json" % (term, category))
     crawler = CrawlerProcess(Settings())
     crawler.crawl(csp)
     crawler.start()
-    crawler.crawl(psp)
-    crawler.start()
+    # crawler.crawl(psp)
+    # crawler.start()
