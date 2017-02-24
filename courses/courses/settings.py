@@ -44,3 +44,5 @@ DEFAULT_REQUEST_HEADERS = {
   'Accept': 'application/json;q=0.8',
   'Accept-Language': 'en'
 }
+
+LOG_STDOUT = False

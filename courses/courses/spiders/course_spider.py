@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import scrapy
 import json
+import logging
 from urllib.parse import urlsplit, urlunsplit, urlencode, parse_qsl
 
 import os
@@ -14,15 +17,18 @@ class CourseSpider(scrapy.Spider):
     mandatory and the example given describes the defaults
     """
     name = "courses"
-    
-    def __init__(self, outdir='./db/', term='20168', category='RES', *args, **kwargs):
-        super(CourseSpider, self).__init__(*args, **kwargs)
-        self.start_urls = [
-            'https://one.uf.edu/apix/soc/schedule/?term=%s&category=%s&lastrow=0' % (str(term), str(category))
-        ]
-        self.term = term
+
+    def __init__(self, outdir='./db/', term='20168', category='RES'):
+        self.outdir = outdir
         self.category = category
-        self.outfile = os.path.abspath(os.path.join(outdir, 'courses_%s_%s.json' % (self.term, self.category)))
+        self.term = term
+        super(CourseSpider, self).__init__()
+        self.start_urls = [
+            'https://one.uf.edu/apix/soc/schedule/?term=%s&category=%s&lastrow=0' % (str(self.term), str(self.category))
+        ]
+        self.outfile = os.path.abspath(os.path.join(self.outdir, 'courses_%s_%s.json' % (self.term, self.category)))
+        if(os.path.exists(self.outfile)):
+            os.remove(self.outfile)
 
     def start_requests(self):
         for url in self.start_urls:
@@ -31,8 +37,13 @@ class CourseSpider(scrapy.Spider):
     def parse(self, response):
         yield scrapy.Request(url=self.next_url(response), callback=self.parse)
         json_resp = json.loads(response.body_as_unicode())[0]['COURSES']
-        with open(self.outfile, 'w+') as f:
-            json.dump(json_resp, f, indent=2)
+        output = dict()
+        for item in json_resp:
+            code = item['code']
+            del item['code']
+            output[code] = item
+        with open(self.outfile, 'a+') as f:
+            json.dump(output, f)
 
     def next_url(self, response):
         json_resp = json.loads(response.body_as_unicode())[-1]
