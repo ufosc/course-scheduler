@@ -24,7 +24,7 @@ class PrereqsSpider(scrapy.Spider):
             
     
     def parse(self, response):
-        with open(self.file) as f:
+        with open(self.file, 'rw') as f:
             courses = json.loads(f.read())
             code = (response.request.url).split('/')[-1]
-            pprint.pprint(courses[code])
+            courses[code]
