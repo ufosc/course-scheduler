@@ -64,27 +64,28 @@ def fetch_prereqs():
     # Performs a regular expression search on the database file.
     with open('db.json') as database_json: 
     	for line in database_json:
-    	    prelim_scraped_course_list.append(re.search('[code: ][A-Z]{3}[0-9]{4}[A-Z]*', line))
+    	    prelim_scraped_course_list.append(re.search(r'[A-Z]{3}[0-9]{4}[A-Z]*', line))
+
     
     # Throws away most data, which were unmatched lines defined by NoneType.
     for element in prelim_scraped_course_list:
        if element is not None:
+       	 # Converts each element from a _sre.SRE_Match type to a string type.
+       	 element = element.group()
          print (element)
          scraped_course_list.append(element)
 
     print('length: ')
     print (len(scraped_course_list))
     
-    """For each element of the array, append that course code to a predefined endpoint string.
-    ONE_UF_API_CDESC_ENDPOINT = 'https://one.uf.edu/apix/soc/cdesc   DDDCCCCL'
-
-    DDD = Department
-    CCCC = Course Code
-    L = Lab (optional)
-
-    5. Query the API using that endpoint string.
-    6. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json.
-    6b. If there are no prerequisties, append 'NULL' to the newly created prereqs field in db.json.
+    # Queries the UF.ONE API for the relevant JSON prequisites file.
+    for element in scraped_course_list:
+    	COURSE_PREREQ_QUERY = 'https://one.uf.edu/apix/soc/cdesc/' + element
+    	print (COURSE_PREREQ_QUERY)
+   
+    """
+    6. Query the API using that endpoint string. 
+    6b. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json. If there are no prerequisties, append 'NULL'.
     """
 
 def write_db(course_list, kind='json', path='.', separator=','):
