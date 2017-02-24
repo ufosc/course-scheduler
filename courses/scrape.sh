@@ -1,0 +1,1 @@
+scrapy crawl courses -a term=20171 -a category=RES -a outdir=./db/ --logfile=courses.log
