@@ -60,6 +60,7 @@ def fetch_prereqs():
     # Creates a list to hold our scraped courses. 
     prelim_scraped_course_list = []
     scraped_course_list = []
+    prelim_prereq_string_list = []
 
     # Performs a regular expression search on the database file.
     with open('db.json') as database_json: 
@@ -78,13 +79,21 @@ def fetch_prereqs():
     print('length: ')
     print (len(scraped_course_list))
     
-    # Queries the UF.ONE API for the relevant JSON prequisites file.
+    # Defines what we want from the queried webpage.
+    desired_string = {'Prereq:': r'(?<=Prereq: ).*?(?=\")'}
+    
+    # Queries the UF.ONE API for the relevant JSON page.
     for element in scraped_course_list:
     	COURSE_PREREQ_QUERY = 'https://one.uf.edu/apix/soc/cdesc/' + element
     	print (COURSE_PREREQ_QUERY)
+    	r = requests.get(COURSE_PREREQ_QUERY, data=desired_string)
+    	r.json()
+    	prelim_prereq_string_list.append(r.json())
+   
+    # Prints the all COURSE_PREREQ_QUERY JSON data for all entire catalog.
+    print (prelim_prereq_string_list)
    
     """
-    6. Query the API using that endpoint string. 
     6b. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json. If there are no prerequisties, append 'NULL'.
     """
 
