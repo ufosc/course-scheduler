@@ -1,11 +1,17 @@
 # Project specific
 
+# build 
+build/
+
 # dependencies
-/node_modules/
-/typings/
+node_modules/
+typings/
 
 # logs
 npm-debug.log
+
+# Editior Settings 
+cSpell.json
 
 # Created by https://www.gitignore.io/api/macos,windows,linux,git,sublimetext,visualstudiocode,code
 

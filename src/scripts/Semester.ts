@@ -1,10 +1,13 @@
-import {Course, Difficulty} from './Course';
+import {Course} from './Course';
+import {Difficulty} from './Difficulty';
+import {SemesterMessages} from './Messages';
 
 // Constants
-const FULLTIMESUMMER = 9;
-const FULLTIMESPRING = 12;
-const FULLTIMEFALL = 12;
+const FULL_TIME_SUMMER_CREDITS = 9;
+const FULL_TIME_SPRING_CREDITS = 12;
+const FULL_TIME_FALL_CREDITS   = 12;
 
+// Types of semesters 
 enum Season
 {
 	Spring,
@@ -12,28 +15,27 @@ enum Season
 	Fall
 }
 
-export enum Warning
-{
-	FullTime = "Not enough credits to be considered full time",
-	Difficult = "This is a difficult semester",
-	Insane = "This semester may be overwhelming" 
-}
-
 /**
- * Contains information about each semester and provides warnings 
+ * Contains information about each semester and provides messages 
  */
 export class Semester
 {
-	// Course related 
+	// From the courses 
 	public theCourses: Course[];
-	public theRating: Difficulty;
+	public theRating: number;
 	public theCredits: number;
 
-	// Semester related
+	// For this semester 
 	public theYear: number;
 	public theSeason: Season;
-	public theWarnings: Warning[];
+	public theMessages: string[];
 
+	/**
+	 * Create a semester
+	 * @param aYear: number for the year 
+	 * @param aSeason: Season for the semester 
+	 * @param aCourses: Course[] of courses in this semester 
+	 */
 	constructor(aYear: number, aSeason: Season, aCourses: Course[] = [])
 	{
 		this.theYear = aYear;
@@ -42,21 +44,27 @@ export class Semester
 	}
 
 	/**
-	 * Add a course to the semester, modifies semester credits, difficulty, and warnings
+	 * Add a single course to the semester, modifies semester credits, difficulty, and messages
 	 */
 	public addCourse(aNewCourse: Course): void 
 	{
+		// Add the course to course list 
 		this.theCourses.push(aNewCourse);
+
+		// Update semester attributes 
 		this.theCredits += aNewCourse.theCredits;
 		this.updateDifficulty();
-		this.updateWarnings();
+		this.updateMessages();
 	}
 
 	/**
-	 * Add courses to the semester, modifies semester credits, difficulty, and warnings, TODO: Adjusts, technically n^2
+	 * Add a list of courses to the semester, modifies semester credits, difficulty, and messages, 
+	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
+	 * to deal with this)
 	 */
 	public addCourses(aNewCourses: Course[]): void
 	{
+		// Loop through the list and add them to the course
 		for (let newCourse of aNewCourses)
 		{
 			this.addCourse(newCourse);
@@ -64,21 +72,31 @@ export class Semester
 	}
 
 	/**
-	 * Removes a course from the semester, modifies semester credits, difficulty, and warnings
+	 * Removes a single course from the semester, modifies semester credits, difficulty, and messages
 	 */
 	public removeCourse(anOldCourse: Course): void 
 	{
-		// Remove from array 
+		// Get location of the course and remove it 
+		var indexOfCourse = this.theCourses.indexOf(anOldCourse);
+		if(indexOfCourse != -1) 
+		{
+			this.theCourses.splice(indexOfCourse, 1);
+		}
+
+		// Update the semester attributes 
 		this.theCredits -= anOldCourse.theCredits;
 		this.updateDifficulty();
-		this.updateWarnings();
+		this.updateMessages();
 	}
 
 	/**
-	 * Removes courses from the semester, modifies semester credits, difficulty, and warnings
+	 * Removes a courses list from the semester, modifies semester credits, difficulty, and messages
+	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
+	 * to deal with this
 	 */
 	public removeCourses(anOldCourses: Course[]): void
 	{
+		// Loop through the list and remove them to the course
 		for (let oldCourse of anOldCourses)
 		{
 			this.addCourse(oldCourse);
@@ -91,43 +109,51 @@ export class Semester
 	 */
 	private updateDifficulty(): void 
 	{
-		// Check the difficulty of the semester by averaging them TODO: Check the algorithm 
+		// Check the difficulty of the semester by averaging them 
+		// TODO: Rethink the algorithm 
+
+		// Sum them all
 		let sumOfDifficulty = 0;
 		for (let course of this.theCourses)
 		{
 			sumOfDifficulty += course.theDifficultyRating;
 		}
+
+		// Average the courses 
 		let averageDifficulty = sumOfDifficulty / this.theCourses.length;
 		
 		// Get the integer version of the average 
-		this.theRating= Number(averageDifficulty);
+		this.theRating = Number(averageDifficulty);
 	}
 
 	/**
-	 * This updates the warnings for this semester including difficulty, insufficient credits 
+	 * This updates the messages for this semester including difficulty, insufficient credits 
 	 */
-	private updateWarnings(): void 
+	private updateMessages(): void 
 	{
-		// Clear the warnings
-		this.theWarnings = [];
+		// Get semester lists 
+		let messages = new SemesterMessages();
+
+		// Clear the messages
+		this.theMessages = [];
 
 		// Fulltime check, summer, spring, and fall
-		if ((this.theSeason == Season.Summer && this.theCredits < FULLTIMESUMMER) ||
-				(this.theSeason == Season.Spring && this.theCredits < FULLTIMESPRING) ||
-				(this.theSeason == Season.Fall && this.theCredits < FULLTIMEFALL))
+		if ((this.theSeason == Season.Summer && this.theCredits < FULL_TIME_SUMMER_CREDITS) ||
+				(this.theSeason == Season.Spring && this.theCredits < FULL_TIME_SPRING_CREDITS) ||
+				(this.theSeason == Season.Fall && this.theCredits < FULL_TIME_FALL_CREDITS))
 		{
-			// Add the fulltime warning 
-			this.theWarnings.push(Warning.FullTime);
+			// Add the fulltime message 
+			this.theMessages.push(messages.FullTime);
 		}
 
 		// Check the difficulty
-		if (this.theRating == Difficulty.Difficult)
+		if (this.theRating == Difficulty.Hard)
 		{	
-			this.theWarnings.push(Warning.Difficult);
+			this.theMessages.push(messages.Hard);
 		}
 		else if (this.theRating == Difficulty.Insane)
 		{
-			this.theWarnings.push(Warning.Insane);
+			this.theMessages.push(messages.Insane);
 		}
 	}
 

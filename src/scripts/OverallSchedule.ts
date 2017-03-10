@@ -1,53 +1,35 @@
-import {Semester, Warning} from './Semester';
-import {Course} from './Course'
+import {Semester} from './Semester';
+import {Difficulty} from './Difficulty';
+import {OverallMessages} from './Messages';
+import {Degree} from './Degree';
 
 /**
- * A major or minor with all the required courses 
- */
-class Degree
-{
-	public theName: string;
-	public theRequiredCourses: Course[];
-
-	// May be unnecessary 
-	public theRequiredCredits: number;
-
-	constructor(aName: string, aRequiredCourses: Course[], aRequiredCredits: number = 0)
-	{
-		this.theName = aName;
-		this.theRequiredCourses = aRequiredCourses;
-		this.theRequiredCredits = aRequiredCredits;
-		// Go through anc count the credits
-		if (aRequiredCredits == 0)
-		{
-			for (let course of this.theRequiredCourses)
-			this.theRequiredCredits += course.theCredits;
-		}
-	}
-
-}
-
-/**
- * The overall list of all semesters and their courses. Also has warnings. 
+ * The overall list of all semesters and their courses, and their messages
  */
 class OverallSchedule
 {
-	// Semester related
+	// From the semesters 
 	public theSemesters: Semester[];
 	public theCredits: number;
-	public theWarnings: Warning[];
 
-	// Overall related
+	// For the overall
 	public theMajors: Degree[];
 	public theMinors: Degree[];
+	public theMessages: string[];
 
+	/**
+	 * Create the overall plan
+	 * @param aMajor Degree[], default empty
+	 * @param aMinor Degree[], default empty
+	 * @param aSemesters Semester[], default empty 
+	 */
 	constructor(aMajor: Degree[] = [], aMinor: Degree[] = [], aSemesters: Semester[] = [])
 	{
 		this.theMajors = aMajor;
 		this.theMinors = aMinor;
 		this.theSemesters = aSemesters;
 		this.updateCredits();
-		this.updateWarnings();
+		this.updateMessages();
 	}
 
 	/**
@@ -55,7 +37,10 @@ class OverallSchedule
 	 */
 	private updateCredits(): void
 	{
+		// Reset number of credits
 		this.theCredits = 0;
+
+		// Sum up credits from each semester 
 		for (let semester of this.theSemesters)
 		{
 			this.theCredits += semester.theCredits;
@@ -63,14 +48,15 @@ class OverallSchedule
 	}
 
 	/**
-	 * Find any issues from the overall schedule, including missing classes
+	 * Find any issues from the overall schedule, including missing classes, completed
 	 */
-	private updateWarnings(): void
+	private updateMessages(): void
 	{
-		this.theWarnings = [];
-		for (let semester of this.theSemesters)
-		{
-			//this.theWarnings.push(semester.theWarnings)
-		}
+		// Reset the messages 
+		this.theMessages = [];
+		
+		// Do checks for message conditions 
 	}
+
+	// TODO: Change minor/major, more messages, to and from JSON
 }

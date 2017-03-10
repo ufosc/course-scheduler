@@ -4,8 +4,12 @@
   "description": "A dynamic course scheduler for planning out college semesters.",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "dev": "webpack --watch"
+    "build": "node_modules/.bin/webpack --progress",
+    "dev": "node_modules/.bin/webpack --progress --watch",
+    "no-output": "node_modules/.bin/webpack --progress --watch --quiet --no-info",
+    "server": "node_modules/.bin/webpack-dev-server --open --port 8088",
+    "dev-server": "npm run no-output & npm run server",
+    "w-dev-server": "start npm run no-output & npm run server"
   },
   "repository": {
     "type": "git",
@@ -28,7 +32,7 @@
     "typescript": "^2.1.4",
     "typings": "^2.1.0",
     "webpack": "^1.14.0",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.3"
   },
   "dependencies": {
     "react": "^15.4.1",

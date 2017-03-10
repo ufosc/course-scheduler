@@ -1,68 +1,7 @@
-
-/**
- * The type of ratings possible. 
- */
-export enum Difficulty
-{
-	Insane = 5,
-	Difficult = 4,
-	Challenging = 3,
-	Average = 2,
-	Easy = 1
-}
-
-/**
- * Records the number of ratings and overall average
- */
-class Rating
-{
-	private theNumberOfRatings: number;
-	public theAverageRating: number;
-
-	/**
-	 * Create a rating with a number of ratings and the average rating
-	 */
-	constructor(aNumberOfRatings: number, anAverageRating: number)
-	{
-		this.theNumberOfRatings = aNumberOfRatings;
-		this.theAverageRating = anAverageRating;
-	}
-
-	/**
-	 * Returns what the overall rating of is 
-	 */
-	public get theOverallDifficulty(): Difficulty
-	{
-		// Get the integer version of the average 
-		return Number(this.theAverageRating.toFixed(0));
-	}
-
-	/**
-	 * Add a new rating, increments number of ratings and adjust the 
-	 */
-	public addRating(aNewRating: Difficulty): void
-	{
-		// Get the previous sum, then increment the number of ratings and take a new average
-		let previousSum: number = this.theNumberOfRatings * this.theNumberOfRatings;
-		this.theAverageRating = (previousSum + aNewRating) / ++this.theNumberOfRatings;
-	}
-
-	/**
-	 * Returns a human readable sentence with the rating values 
-	 */
-	public toString(): string
-	{
-		return `The average is ${this.theAverageRating} for a ${this.theOverallDifficulty}
-			 from ${this.theNumberOfRatings}`
-	}
-
-	// TODO: toJSON()
-}
-
 /**
  * Contains all information about a course 
  */
-export class Course 
+export class Course
 {
 	// From UF
 	public theName: string;
@@ -71,45 +10,63 @@ export class Course
 	public theCredits: number;
 	public theProfessors: string[];
 	public thePreReqs: Course[];
-	// TODO: PostReqs?
+	public theDifficultyRating: number;
+	// TODO: PostReqs?, Concurrent?, Completed?, notes?
 
-	// From users
-	private theDifficultyRatings: Rating;
-	public theNotes: string[];
-
-	constructor(aName: string, anID: string, aDescription: string, aCredits: number, 
-			aProfessors: string[], aDifficultyRatings: Rating, aNotes: string[], aPreReqs: Course[])
+	/**
+	 * This will either parse a JSON with only one parameter, or all the values together.
+	 * TODO: May not be the best methodology, but works for now.
+	 */
+	constructor(aName: string, anID: string = null, aDescription: string = null, 
+			aCredits: number = null, aProfessors: string[] = null, aDifficultyRatings: number = null, 
+			aNotes: string[] = null, aPreReqs: Course[] = null)
 	{
-		this.theName = aName;
-		this.theID = anID;
-		this.theDescription = aDescription;
-		this.theCredits = aCredits;
-		this.theProfessors = aProfessors;
-		this.theDifficultyRatings = aDifficultyRatings;
-		this.theNotes = aNotes;
-		this.thePreReqs = aPreReqs;
+		// Check if it's only one item. Which means it is given a JSON 
+		if (anID == null)
+		{
+			this.makeCourseFromJSON(aName);
+		}
+		// It then must be a created from variables 
+		else 
+		{
+			this.makeCourseFromVariables(aName, anID, aDescription, aCredits, aProfessors, 
+					aDifficultyRatings, aNotes, aPreReqs);
+		}
 	}
 
-	// TODO: fromJSON()
-	
+	/**
+	 * Make course object from JSON
+	 */
+	private makeCourseFromJSON(aJSON)
+	{
+		// Parse the JSON string 
+		var json = JSON.parse(aJSON);
+
+		// Add the attributes to the course 
+		this.theName              = json.theName;
+		this.theID                = json.theID;
+		this.theDescription       = json.theDescription;
+		this.theCredits           = json.theCredits;
+		this.theProfessors        = json.theProfessors;
+		this.theDifficultyRating = json.theDifficultyRatings;
+		this.thePreReqs           = json.thePreReqs;
+	}
+
+	/**
+	 * Makes course object from all the parameters 
+	 */
+	private makeCourseFromVariables(aName: string, anID: string, aDescription: string, 
+			aCredits: number, aProfessors: string[], aDifficultyRatings: number, aNotes: string[], 
+			aPreReqs: Course[])
+	{
+		this.theName              = aName;
+		this.theID                = anID;
+		this.theDescription       = aDescription;
+		this.theCredits           = aCredits;
+		this.theProfessors        = aProfessors;
+		this.theDifficultyRating = aDifficultyRatings;
+		this.thePreReqs           = aPreReqs;
+	}
+
 	// TODO: toJSON()
-
-	// Rating methods 
-	/**
-	 * Returns what the difficulty rating of the class is 
-	 */
-	public get theDifficultyRating(): Difficulty
-	{
-		// Use the rating's method
-		return this.theDifficultyRatings.theOverallDifficulty;
-	}
-
-	/**
-	 * Add a new rating to the course
-	 */
-	public addRating(aNewRating: Difficulty): void
-	{
-		this.theDifficultyRatings.addRating(aNewRating);
-	}
-
 }

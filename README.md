@@ -16,6 +16,10 @@ We are using TypeScript with React to write this project. Other tools that are u
 
 [Typings](https://github.com/typings/typings) is a TypeScript definition manager. It allows editors to easily plug into different systems (such as React) and show autocomplete. It's config file is typings.json.
 
+## Note Before Reading 
+
+The front end and organization of the project has changed significantly since the below was written, so please check the current dev state for a better idea of the current state. 
+
 ## Getting Started
 
 To start working on the project, first install [node](https://nodejs.org/). Version 4 or higher.
@@ -34,7 +38,7 @@ npm install
 node_modules/.bin/typings install
 ```
 
-To compile everything with output. 
+To just compile 
 
 ```
 npm run build
@@ -42,11 +46,17 @@ npm run build
 
 Then open index.html in your browser. 
 
-To have it compile on change (still need to refresh browser).
+If you want to run an updating server 
 
 ```
-npm run dev
-``` 
+npm run dev-server
+```
+
+or on Windows 
+
+```
+npm run w-dev-server
+```
 
 ### Resources
 
@@ -67,23 +77,3 @@ npm run dev
 - [React Apps](https://github.com/facebookincubator/create-react-app)
 - [Drag and Drop](https://gaearon.github.io/react-dnd/)
 - [Material Design Components](http://www.material-ui.com/#/)
-
-## TODO
-- [ ] Load course data from UF
-- [ ] Order classes
-	- [ ] Pre-reqs
-	- [ ] Suggested pre-reqs
-- [ ] Add already taken classes
-- [ ] Interactive reordering
-	- [ ] Feedback
-		- [ ] Wrong order
-		- [ ] Excess Hours
-		- [ ] Minimum Hours
-- [ ] Current semester view
-	- [ ] Show possible times
-	- [ ] Help choose available ones by preferences
-- [ ] Search classes
-- [ ] Rating for class/professor
-- [ ] Predefined specialties (database comp sci)
-- [ ] Add minor/major
-- [ ] Save course list

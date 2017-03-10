@@ -52,5 +52,3 @@ var config = {
 };
 
 module.exports = config;
-
-// node_modules/.bin/webpack-dev-server --hot --inline --port 8088
