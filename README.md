@@ -31,3 +31,6 @@ We have a wiki that is currently being built, but check out the following resour
 #### Backend (Python)
 - [Python 3 standard docs](https://docs.python.org/3/)
 - [Full Stack Python Resources](https://www.fullstackpython.com/best-python-resources.html)
+
+## TODO
+Look at our [projects](https://github.com/ufosc/course-scheduler/projects) or [issues](https://github.com/ufosc/course-scheduler/issues) page!
