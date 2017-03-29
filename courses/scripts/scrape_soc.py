@@ -61,13 +61,13 @@ def fetch_prereqs():
     prelim_scraped_course_list = []
     scraped_course_list = []
     prelim_prereq_string_list = []
+    prereq_string_list = []
 
     # Performs a regular expression search on the database file.
     with open('db.json') as database_json: 
     	for line in database_json:
     	    prelim_scraped_course_list.append(re.search(r'[A-Z]{3}[0-9]{4}[A-Z]*', line))
 
-    
     # Throws away most data, which were unmatched lines defined by NoneType.
     for element in prelim_scraped_course_list:
        if element is not None:
@@ -78,7 +78,7 @@ def fetch_prereqs():
 
     print('length: ')
     print (len(scraped_course_list))
-    
+
     # Defines what we want from the queried webpage.
     desired_string = {'Prereq:': r'(?<=Prereq: ).*?(?=\")'}
     
@@ -86,13 +86,25 @@ def fetch_prereqs():
     for element in scraped_course_list:
     	COURSE_PREREQ_QUERY = 'https://one.uf.edu/apix/soc/cdesc/' + element
     	print (COURSE_PREREQ_QUERY)
+    	# Take a look at this. 
     	r = requests.get(COURSE_PREREQ_QUERY, data=desired_string)
     	r.json()
     	prelim_prereq_string_list.append(r.json())
    
     # Prints the all COURSE_PREREQ_QUERY JSON data for all entire catalog.
     print (prelim_prereq_string_list)
-   
+
+    # Need to determine the type of prelim_prereq_string_list. 
+    print("type of prelim_prereq_string_list is: ", type(prelim_prereq_string_list), "type")
+
+    # This is for testing purposes. Writes the data to a file.
+    test_dir = os.path.dirname(__file__)
+    out_path = os.path.join('prereq.' + test_dir + 'json')
+    with open(out_path, 'w+') as testfile:
+        json.dump(prelim_prereq_string_list, testfile, indent=4)
+
+    # Append to the original db.json by creating a new field in it, called prereqs, appended with the strings from prereq_string_list.
+    
     """
     6b. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json. If there are no prerequisties, append 'NULL'.
     """
