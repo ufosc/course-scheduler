@@ -1,14 +1,11 @@
-const FullTime: string = "Not enough credits to be considered full time";
-
-
 /**
  * Holds all messages for a semester 
  */
 export class SemesterMessages
 {
-	public FullTime: string = "Not enough credits to be considered full time";
-	public Hard: string     = "This is a hard semester";
-	public Insane: string   = "This semester may be overwhelming";
+	readonly FullTime: string = "Not enough credits to be considered full time";
+	readonly Hard: string     = "This is a hard semester";
+	readonly Insane: string   = "This semester may be overwhelming";
 }
 
 /**
@@ -16,5 +13,6 @@ export class SemesterMessages
  */
 export class OverallMessages
 {
-	public MissingReqs: string = "Missing some degree requirements";
+	readonly FullTime: string = "Not enough credits to be considered full time";
+	readonly MissingReqs: string = "Missing some degree requirements";
 }

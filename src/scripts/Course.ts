@@ -1,5 +1,6 @@
 /**
  * Contains all information about a course 
+ * TODO: toJSON()
  */
 export class Course
 {
@@ -14,33 +15,41 @@ export class Course
 	// TODO: PostReqs?, Concurrent?, Completed?, notes?
 
 	/**
-	 * This will either parse a JSON with only one parameter, or all the values together.
+	 * Creates a course from either a JSON or passed values. Only include first value for json.
+	 * @param aJson If given as a json, just populate this parameter, otherwise set to null
+	 * @param aName Class name
+	 * @param anID Course number
+	 * @param aDescription Course description 
+	 * @param aCredits Number of credits for class
+	 * @param aProfessors List of professors who have taught the class
+	 * @param aDifficultyRatings Difficulty based of course evaluations 
+	 * @param aPreReqs Prerequisites for this course, defaults to []
 	 * TODO: May not be the best methodology, but works for now.
 	 */
-	constructor(aName: string, anID: string = null, aDescription: string = null, 
-			aCredits: number = null, aProfessors: string[] = null, aDifficultyRatings: number = null, 
-			aNotes: string[] = null, aPreReqs: Course[] = null)
+	constructor(aJson: string, aName?: string, anID?: string, aDescription?: string, 
+			aCredits?: number, aProfessors?: string[], aDifficultyRatings?: number, aPreReqs?: Course[])
 	{
-		// Check if it's only one item. Which means it is given a JSON 
-		if (anID == null)
+		// Check if there are enough parameters to create the class
+		if (aDifficultyRatings == undefined)
 		{
-			this.makeCourseFromJSON(aName);
+			this.makeCourseFromJSON(aJson);
 		}
 		// It then must be a created from variables 
 		else 
 		{
 			this.makeCourseFromVariables(aName, anID, aDescription, aCredits, aProfessors, 
-					aDifficultyRatings, aNotes, aPreReqs);
+					aDifficultyRatings, aPreReqs);
 		}
 	}
 
 	/**
 	 * Make course object from JSON
+	 * @param aJson Json to create course from 
 	 */
-	private makeCourseFromJSON(aJSON)
+	private makeCourseFromJSON(aJson): void
 	{
 		// Parse the JSON string 
-		var json = JSON.parse(aJSON);
+		var json = JSON.parse(aJson);
 
 		// Add the attributes to the course 
 		this.theName              = json.theName;
@@ -48,25 +57,31 @@ export class Course
 		this.theDescription       = json.theDescription;
 		this.theCredits           = json.theCredits;
 		this.theProfessors        = json.theProfessors;
-		this.theDifficultyRating = json.theDifficultyRatings;
+		this.theDifficultyRating  = json.theDifficultyRatings;
 		this.thePreReqs           = json.thePreReqs;
 	}
 
 	/**
-	 * Makes course object from all the parameters 
+	 * Make course object from the parameters
+	 * @param aName Class name 
+	 * @param anID Course number
+	 * @param aDescription Course description 
+	 * @param aCredits Number of credits for class
+	 * @param aProfessors List of professors who have taught the class
+	 * @param aDifficultyRatings Difficulty based of course evaluations 
+	 * @param aPreReqs Prerequisites for this course, defaults to []
 	 */
 	private makeCourseFromVariables(aName: string, anID: string, aDescription: string, 
-			aCredits: number, aProfessors: string[], aDifficultyRatings: number, aNotes: string[], 
-			aPreReqs: Course[])
+			aCredits: number, aProfessors: string[], aDifficultyRatings: number, 
+			aPreReqs: Course[] = []): void
 	{
 		this.theName              = aName;
 		this.theID                = anID;
 		this.theDescription       = aDescription;
 		this.theCredits           = aCredits;
 		this.theProfessors        = aProfessors;
-		this.theDifficultyRating = aDifficultyRatings;
+		this.theDifficultyRating  = aDifficultyRatings;
 		this.thePreReqs           = aPreReqs;
 	}
 
-	// TODO: toJSON()
 }

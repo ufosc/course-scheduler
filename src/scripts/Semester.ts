@@ -17,12 +17,13 @@ enum Season
 
 /**
  * Contains information about each semester and provides messages 
+ * TODO: To json
  */
 export class Semester
 {
 	// From the courses 
 	public theCourses: Course[];
-	public theRating: number;
+	public theDifficultyRating: number;
 	public theCredits: number;
 
 	// For this semester 
@@ -31,20 +32,58 @@ export class Semester
 	public theMessages: string[];
 
 	/**
-	 * Create a semester
-	 * @param aYear: number for the year 
-	 * @param aSeason: Season for the semester 
-	 * @param aCourses: Course[] of courses in this semester 
+	 * Create a semester from either a JSON or passed values. Only include first value for json.
+	 * @param aJson If given as a json, just populate this parameter, otherwise set to null
+	 * @param aYear Number for the year
+	 * @param aSeason Season for the semester
+	 * @param aCourses List of courses in this semester, defaults to []
+	 * TODO: May not be the best methodology, but works for now.
 	 */
-	constructor(aYear: number, aSeason: Season, aCourses: Course[] = [])
+	constructor(aJson: string, aYear?: number, aSeason?: Season, aCourses?: Course[])
 	{
-		this.theYear = aYear;
+		// Check if theres is enough arguments to not use json 
+		if (aSeason == undefined)
+		{
+			this.makeSemesterFromJSON(aJson);
+		}
+		// It then must be a created from variables 
+		else 
+		{
+			this.makeSemesterFromVariables(aYear, aSeason, aCourses);
+		}
+	}
+
+	/**
+	 * Make semester object from JSON
+	 * @param aJson The json 
+	 */
+	private makeSemesterFromJSON(aJson: string): void
+	{
+		// Parse the JSON string 
+		var json = JSON.parse(aJson);
+
+		// Add the attributes to the semester 
+		this.theYear   = json.aYear;
+		this.theSeason = json.aSeason;
+		this.addCourses(json.aCourses);
+	}
+
+	/**
+	 * Makes semester object from all the parameters 
+	 * @param aYear Number for the year 
+	 * @param aSeason Season for the semester 
+	 * @param aCourses List of courses in this semester 
+	 */
+	private makeSemesterFromVariables(aYear: number, aSeason: Season, aCourses: Course[] = []): void
+	{
+		this.theYear   = aYear;
 		this.theSeason = aSeason;
 		this.addCourses(aCourses);
 	}
 
 	/**
 	 * Add a single course to the semester, modifies semester credits, difficulty, and messages
+	 * @param aNewCourse Course to add to the semester
 	 */
 	public addCourse(aNewCourse: Course): void 
 	{
@@ -58,7 +97,9 @@ export class Semester
 	}
 
 	/**
-	 * Add a list of courses to the semester, modifies semester credits, difficulty, and messages, 
+	 * Add a list of courses to the semester, modifies semester credits, difficulty, and messages. 
+	 * Uses addCourse. 
+	 * @param aNewCourses List of courses to add to the semester
 	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
 	 * to deal with this)
 	 */
@@ -73,6 +114,7 @@ export class Semester
 
 	/**
 	 * Removes a single course from the semester, modifies semester credits, difficulty, and messages
+	 * @param anOldCourse Course to be removed
 	 */
 	public removeCourse(anOldCourse: Course): void 
 	{
@@ -90,7 +132,9 @@ export class Semester
 	}
 
 	/**
-	 * Removes a courses list from the semester, modifies semester credits, difficulty, and messages
+	 * Removes a courses list from the semester, modifies semester credits, difficulty, and messages. 
+	 * Uses removeCourse. 
+	 * @param anOldCourses: Course list to be removed
 	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
 	 * to deal with this
 	 */
@@ -123,11 +167,11 @@ export class Semester
 		let averageDifficulty = sumOfDifficulty / this.theCourses.length;
 		
 		// Get the integer version of the average 
-		this.theRating = Number(averageDifficulty);
+		this.theDifficultyRating = Number(averageDifficulty);
 	}
 
 	/**
-	 * This updates the messages for this semester including difficulty, insufficient credits 
+	 * This updates the messages for this semester. Includes difficulty, insufficient credits 
 	 */
 	private updateMessages(): void 
 	{
@@ -147,11 +191,11 @@ export class Semester
 		}
 
 		// Check the difficulty
-		if (this.theRating == Difficulty.Hard)
+		if (this.theDifficultyRating == Difficulty.Hard)
 		{	
 			this.theMessages.push(messages.Hard);
 		}
-		else if (this.theRating == Difficulty.Insane)
+		else if (this.theDifficultyRating == Difficulty.Insane)
 		{
 			this.theMessages.push(messages.Insane);
 		}
