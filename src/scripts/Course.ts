@@ -10,8 +10,8 @@ export class Course
 	public theDescription: string;
 	public theCredits: number;
 	public theProfessors: string[];
-	public thePreReqs: Course[];
 	public theDifficultyRating: number;
+	public thePreReqs: Course[];
 	// TODO: PostReqs?, Concurrent?, Completed?, notes?
 
 	/**

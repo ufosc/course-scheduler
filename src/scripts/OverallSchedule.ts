@@ -14,8 +14,8 @@ export class OverallSchedule
 	public theCredits: number;
 
 	// For the overall
-	private theMajors: Degree[];
-	private theMinors: Degree[];
+	public theMajors: Degree[];
+	public theMinors: Degree[];
 	public theMessages: string[];
 
 	/**
@@ -54,6 +54,7 @@ export class OverallSchedule
 		this.theMajors    = json.aMajor;
 		this.theMinors    = json.aMinor;
 		this.theSemesters = json.aSemesters;
+		let temp = json.
 		this.updateCredits();
 		this.updateMessages();
 	}
@@ -74,19 +75,46 @@ export class OverallSchedule
 		this.updateMessages();
 	}
 
-	/**
-	 * Add a single semester to the overall schedule, modifies overall credits, difficulty, and 
-	 * messages
-	 * @param aNewSemester Semester to add to the overall schedule
-	 */
-	public addSemester(aNewSemester: Semester): void 
-	{
-		// Add the course to course list 
-		this.theSemesters.push(aNewSemester);
 
+	private updateOverallSchedule(): void
+	{
 		// Update overall schedule attributes 
 		this.updateCredits();
 		this.updateMessages();
+	}
+
+	/**
+	 * Add a semester to the overall schedule, modifies overall credits, difficulty, and 
+	 * messages
+	 * @param aNewSemester Semester or semester list to add to the overall schedule
+	 */
+	public addSemester(aNewSemester: Semester | Semester[]): void 
+	{
+		// Create semester array
+		let semesterList = [];
+
+		// If it's a single item, make it an array 
+		if (aNewSemester instanceof Semester)
+		{
+			semesterList[0] = aNewSemester;
+		}
+		// It's an array, so just set it equal to our new array
+		else 
+		{
+			semesterList = aNewSemester;
+		}
+
+		// Loop through the list and add them 
+		for (let semesterJson of semesterList)
+		{
+			// Create the semester 
+			let tempSemester: Semester = new Semester(semesterJson);
+
+			// Add the semester to overall list 
+			this.theSemesters.push(tempSemester);
+		}
+
+		this.updateOverallSchedule();
 	}
 
 	/**
