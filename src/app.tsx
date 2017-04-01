@@ -5,6 +5,7 @@ import * as ReactDOM from "react-dom";
 import Hello from "./views/hello";
 import OverallScheduleView from "./views/overallScheduleView";
 
+// Some data for testing 
 var dummyData = JSON.stringify(
   {
       "theSemesters": 
@@ -224,10 +225,9 @@ var dummyData = JSON.stringify(
   }
 );
 
-
 ReactDOM.render(
-  <Hello word="World!" />,
-  // <OverallScheduleView aSchedule=""/>,
+  <Hello word="World!"/>,
+  // <OverallScheduleView aSchedule={dummyData}/>,
   document.getElementById("root")
 );
 

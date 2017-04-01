@@ -4,8 +4,23 @@ import {OverallMessages} from './Messages';
 import {Degree} from './Degree';
 
 /**
+ * Defines a Overall Schedule
+ */
+export interface IOverallSchedule
+{
+	// From the semesters 
+	theSemesters: Semester[];
+	theCredits: number;
+
+	// For the overall
+	theMajors: Degree[];
+	theMinors: Degree[];
+	theMessages: string[];
+}
+
+/**
  * The overall list of all semesters and their courses, and their messages
- * TODO: More messages, to JSON
+ * TODO: More messages
  */
 export class OverallSchedule
 {
@@ -19,68 +34,68 @@ export class OverallSchedule
 	public theMessages: string[];
 
 	/**
-	 * Create a overall schedule from either a JSON or passed values. Only include first value for 
-	 * json.
-	 * @param aJson If given as a JSON, just populate this, otherwise set to null
+	 * Create an overall schedule for the given degrees 
 	 * @param aMajor Degree[]
 	 * @param aMinor Degree[], default to []
 	 * @param aSemesters Semester[], default to [] 
-	 * TODO: May not be the best methodology, but works for now.
 	 */
-	constructor(aJson: string, aMajor?: Degree[], aMinor?: Degree[], aSemesters?: Semester[])
+	constructor(aMajor: Degree[], aMinor: Degree[] = [], aSemesters: Semester[] = [])
 	{
-		// Check if theres is enough arguments to not use json 
-		if (aMajor == undefined)
-		{
-			this.makeOverallScheduleFromJSON(aJson);
-		}
-		// It then must be a created from variables 
-		else 
-		{
-			this.makeOverallScheduleFromVariables(aMajor, aMinor, aSemesters);
-		}
+		// Add the attributes to the overall schedule, each calls an update
+		this.addMajor(aMajor);
+		this.addMinor(aMinor);
+		this.addSemester(aSemesters);
 	}
 
 	/**
 	 * Make overall schedule object from JSON
-	 * @param aJson A json to create the course from 
+	 * @param aJson A json to create the overall schedule from 
 	 */
-	private makeOverallScheduleFromJSON(aJson: string): void
+	static fromJson(aJson: IOverallSchedule): OverallSchedule
 	{
-		// Parse the JSON string 
-		var json = JSON.parse(aJson);
+		// List for created objects, not json
+		let majorList: Degree[];
+		let minorList: Degree[];
+		let semesterList: Semester[];
 
-		// Add the attributes to the overall schedule 
-		this.theMajors    = json.aMajor;
-		this.theMinors    = json.aMinor;
-		this.theSemesters = json.aSemesters;
-		let temp = json.
-		this.updateCredits();
-		this.updateMessages();
+		// Loop through and create all the majors
+		for (let majorItem of aJson.theMajors)
+		{
+			majorList.push(Degree.fromJson(majorItem));
+		}
+
+		// Loop through and create all the minors
+		for (let minorItem of aJson.theMinors)
+		{
+			minorList.push(Degree.fromJson(minorItem));
+		}
+
+		// Loop through and create all the semesters
+		for (let semesterItem of aJson.theSemesters)
+		{
+			semesterList.push(Semester.fromJson(semesterItem));
+		}
+
+		// Call the constructor 
+		return new OverallSchedule(majorList, minorList, semesterList);
 	}
 
 	/**
-	 * Makes semester object from all the parameters 
-	 * @param aMajor List of majors
-	 * @param aMinor List of minors, defaults to []
-	 * @param aSemesters List of semesters, defaults to []
+	 * Converts the Overall Schedule to a Json 
 	 */
-	private makeOverallScheduleFromVariables(aMajor: Degree[], aMinor: Degree[] = [], 
-			aSemesters: Semester[] = []): void
+	public toJson(): IOverallSchedule
 	{
-		this.theMajors    = aMajor;
-		this.theMinors    = aMinor;
-		this.theSemesters = aSemesters;
-		this.updateCredits();
-		this.updateMessages();
-	}
-
-
-	private updateOverallSchedule(): void
-	{
-		// Update overall schedule attributes 
-		this.updateCredits();
-		this.updateMessages();
+		// Create json from current attributes
+		let json: IOverallSchedule =
+			{
+				"theSemesters": this.theSemesters,
+				"theCredits":   this.theCredits,
+				"theMajors":    this.theMajors,
+				"theMinors":    this.theMinors,
+				"theMessages":  this.theMessages
+			};
+			
+		return json;
 	}
 
 	/**
@@ -91,7 +106,7 @@ export class OverallSchedule
 	public addSemester(aNewSemester: Semester | Semester[]): void 
 	{
 		// Create semester array
-		let semesterList = [];
+		let semesterList: Semester[] = [];
 
 		// If it's a single item, make it an array 
 		if (aNewSemester instanceof Semester)
@@ -105,197 +120,189 @@ export class OverallSchedule
 		}
 
 		// Loop through the list and add them 
-		for (let semesterJson of semesterList)
+		for (let semesterItem of semesterList)
 		{
-			// Create the semester 
-			let tempSemester: Semester = new Semester(semesterJson);
-
 			// Add the semester to overall list 
-			this.theSemesters.push(tempSemester);
+			this.theSemesters.push(semesterItem);
 		}
-
+		// Update the attributes 
 		this.updateOverallSchedule();
 	}
 
 	/**
-	 * Add a list of semesters to the overall schedule, modifies overall credits, difficulty, and 
-	 * messages. Uses addSemester. 
-	 * @param aNewSemesters List of semesters to add to the overall schedule
-	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
-	 * to deal with this)
+	 * Removes a semester from the overall schedule, modifies overall credits, difficulty, 
+	 * and messages
+	 * @param anOldSemester Semester or Semester list to be removed
 	 */
-	public addSemesters(aNewSemesters: Semester[]): void
+	public removeSemester(anOldSemester: Semester | Semester[]): void 
 	{
+		// Create semester array
+		let semesterList: Semester[] = [];
+
+		// If it's a single item, make it an array 
+		if (anOldSemester instanceof Semester)
+		{
+			semesterList[0] = anOldSemester;
+		}
+		// It's an array, so just set it equal to our new array
+		else 
+		{
+			semesterList = anOldSemester;
+		}
+
 		// Loop through the list and add them 
-		for (let newSemester of aNewSemesters)
+		for (let semesterItem of semesterList)
 		{
-			this.addSemester(newSemester);
+			// Get location of the semester and remove it 
+			let indexOfSemester: number = this.theSemesters.indexOf(semesterItem);
+			if(indexOfSemester != -1) 
+			{
+				this.theSemesters.splice(indexOfSemester, 1);
+			}
 		}
+		// Update the attributes 
+		this.updateOverallSchedule();
+	}
+
+
+	/**
+	 * Add a major to the overall schedule, modifies overall credits, difficulty, and messages
+	 * @param aNewMajor Major or major list to add to the overall schedule
+	 */
+	public addMajor(aNewMajor: Degree | Degree[]): void 
+	{
+		// Create major array
+		let majorList: Degree[] = [];
+
+		// If it's a single item, make it an array 
+		if (aNewMajor instanceof Degree)
+		{
+			majorList[0] = aNewMajor;
+		}
+		// It's an array, so just set it equal to our new array
+		else 
+		{
+			majorList = aNewMajor;
+		}
+
+		// Loop through the list and add them 
+		for (let majorItem of majorList)
+		{
+			// Add the major to overall list 
+			this.theMajors.push(majorItem);
+		}
+		// Update the attributes 
+		this.updateOverallSchedule();
 	}
 
 	/**
-	 * Removes a single semester from the overall schedule, modifies overall credits, difficulty, 
+	 * Removes a Major from the overall schedule, modifies overall credits, difficulty, 
 	 * and messages
-	 * @param anOldSemester Semester to be removed
+	 * @param anOldMajor Major or Major list to be removed
 	 */
-	public removeSemester(anOldSemester: Semester): void 
+	public removeMajor(anOldMajor: Degree | Degree[]): void 
 	{
-		// Get location of the semester and remove it 
-		var indexOfSemester = this.theSemesters.indexOf(anOldSemester);
-		if(indexOfSemester != -1) 
+		// Create semester array
+		let majorList: Degree[] = [];
+
+		// If it's a single item, make it an array 
+		if (anOldMajor instanceof Degree)
 		{
-			this.theSemesters.splice(indexOfSemester, 1);
+			majorList[0] = anOldMajor;
+		}
+		// It's an array, so just set it equal to our new array
+		else 
+		{
+			majorList = anOldMajor;
 		}
 
-		// Update the overall attributes 
-		this.updateCredits();
-		this.updateMessages();
-	}
-
-	/**
-	 * Removes a semester list from the overall schedule, modifies overall credits, difficulty, and 
-	 * messages. Uses removeSemester. 
-	 * @param anOldSemesters: Semester list to be removed
-	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
-	 * to deal with this
-	 */
-	public removeSemesters(anOldSemesters: Semester[]): void
-	{
-		// Loop through the list and remove them
-		for (let oldSemester of anOldSemesters)
+		// Loop through the list and add them 
+		for (let semesterItem of majorList)
 		{
-			this.addSemester(oldSemester);
+			// Get location of the semester and remove it 
+			let indexOfMajor: number = this.theMajors.indexOf(semesterItem);
+			if(indexOfMajor != -1) 
+			{
+				this.theMajors.splice(indexOfMajor, 1);
+			}
 		}
+		// Update the attributes 
+		this.updateOverallSchedule();
 	}
 
 	/**
-	 * Add a single major to the overall schedule, modifies overall credits, difficulty, and messages
-	 * @param aNewMajor Major to add to the overall schedule
+	 * Add a minor to the overall schedule, modifies overall credits, difficulty, and messages
+	 * @param aNewMinor Minor or minor list to add to the overall schedule
 	 */
-	public addMajor(aNewMajor: Degree): void 
+	public addMinor(aNewMinor: Degree | Degree[]): void 
 	{
-		// Add the major to overall list 
-		this.theMajors.push(aNewMajor);
+		// Create minor array
+		let minorList: Degree[] = [];
 
-		// Update overall attributes 
-		this.updateCredits();
-		this.updateMessages();
-	}
-
-	/**
-	 * Add a list of courses to the overall schedule, modifies overall credits, difficulty, and 
-	 * messages. Uses addMajor. 
-	 * @param aNewMajors List of majors to add to the overall schedule
-	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
-	 * to deal with this)
-	 */
-	public addMajors(aNewMajors: Degree[]): void
-	{
-		// Loop through the list and add them to the overall schedule
-		for (let newMajor of aNewMajors)
+		// If it's a single item, make it an array 
+		if (aNewMinor instanceof Degree)
 		{
-			this.addMajor(newMajor);
+			minorList[0] = aNewMinor;
 		}
+		// It's an array, so just set it equal to our new array
+		else 
+		{
+			minorList = aNewMinor;
+		}
+
+		// Loop through the list and add them 
+		for (let minorItem of minorList)
+		{
+			// Add the minor to overall list 
+			this.theMinors.push(minorItem);
+		}
+		// Update the attributes 
+		this.updateOverallSchedule();
 	}
 
 	/**
-	 * Removes a single Major from the overall schedule, modifies overall credits, difficulty, 
+	 * Removes a Minor from the overall schedule, modifies overall credits, difficulty, 
 	 * and messages
-	 * @param anOldMajor Major to be removed
+	 * @param anOldMinor Minor or Minor list to be removed
 	 */
-	public removeMajor(anOldMajor: Degree): void 
+	public removeMinor(anOldMinor: Degree | Degree[]): void 
 	{
-		// Get location of the major and remove it 
-		var indexOfMajor = this.theMajors.indexOf(anOldMajor);
-		if(indexOfMajor != -1) 
+		// Create semester array
+		let minorList: Degree[] = [];
+
+		// If it's a single item, make it an array 
+		if (anOldMinor instanceof Degree)
 		{
-			this.theMajors.splice(indexOfMajor, 1);
+			minorList[0] = anOldMinor;
+		}
+		// It's an array, so just set it equal to our new array
+		else 
+		{
+			minorList = anOldMinor;
 		}
 
-		// Update the overall attributes 
+		// Loop through the list and add them 
+		for (let minorItem of minorList)
+		{
+			// Get location of the semester and remove it 
+			let indexOfMinor: number = this.theMinors.indexOf(minorItem);
+			if(indexOfMinor != -1) 
+			{
+				this.theMinors.splice(indexOfMinor, 1);
+			}
+		}
+		// Update the attributes 
+		this.updateOverallSchedule();
+	}
+
+	/**
+	 * Triggers the updates for all the data collected from the semesters content 
+	 */
+	private updateOverallSchedule(): void
+	{
+		// Update overall schedule attributes 
 		this.updateCredits();
 		this.updateMessages();
-	}
-
-	/**
-	 * Removes a major list from the overall schedule, modifies overall credits, difficulty, and 
-	 * messages. Uses removeMajor. 
-	 * @param anOldMajors: Major list to be removed
-	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
-	 * to deal with this
-	 */
-	public removeMajors(anOldMajors: Degree[]): void
-	{
-		// Loop through the list and remove them 
-		for (let oldMajor of anOldMajors)
-		{
-			this.removeMajor(oldMajor);
-		}
-	}
-
-	/**
-	 * Add a single minor to the overall schedule, modifies overall credits, difficulty, and messages
-	 * @param aNewMinor Minor to add to the overall schedule
-	 */
-	public addMinor(aNewMinor: Degree): void 
-	{
-		// Add the minor to overall list 
-		this.theMinors.push(aNewMinor);
-
-		// Update overall attributes 
-		this.updateCredits();
-		this.updateMessages();
-	}
-
-	/**
-	 * Add a list of minors to the overall schedule, modifies semester credits, difficulty, and 
-	 * messages. Uses addMinor. 
-	 * @param aNewMinors List of minors to add to the overall schedule
-	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
-	 * to deal with this)
-	 */
-	public addMinors(aNewMinors: Degree[]): void
-	{
-		// Loop through the list and add them to the overall schedule
-		for (let newMinor of aNewMinors)
-		{
-			this.addMinor(newMinor);
-		}
-	}
-
-	/**
-	 * Removes a single Minor from the overall schedule, modifies overall credits, difficulty, 
-	 * and messages
-	 * @param anOldMinor Minor to be removed
-	 */
-	public removeMinor(anOldMinor: Degree): void 
-	{
-		// Get location of the major and remove it 
-		var indexOfMinor = this.theMinors.indexOf(anOldMinor);
-		if(indexOfMinor != -1) 
-		{
-			this.theMinors.splice(indexOfMinor, 1);
-		}
-
-		// Update the overall attributes 
-		this.updateCredits();
-		this.updateMessages();
-	}
-
-	/**
-	 * Removes a Minor list from the overall schedule, modifies overall credits, difficulty, and 
-	 * messages. Uses removeMinor. 
-	 * @param anOldMinors: Minor list to be removed
-	 * TODO: Adjusts, technically n^2 (updating attributes causes another loop, could have a flag
-	 * to deal with this
-	 */
-	public removeMinors(anOldMinors: Degree[]): void
-	{
-		// Loop through the list and remove them 
-		for (let oldMinor of anOldMinors)
-		{
-			this.removeMinor(oldMinor);
-		}
 	}
 
 	/**

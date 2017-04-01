@@ -1,82 +1,99 @@
 import {Course} from './Course'
 
 /**
+ * Defines a degree  
+ */
+export interface IDegree
+{
+	theName: string;
+	theRequiredCredits: number;
+	theRequiredCourses: Course[];
+}
+
+/**
  * A major or minor that contains all required courses and other requirements 
  */
-export class Degree
+export class Degree implements IDegree
 {
 	public theName: string;
-	public theRequiredCourses: Course[];
 	public theRequiredCredits: number;
+	public theRequiredCourses: Course[];
 	// TODO: Way to account for electives 
 
 	/**
-	 * Create degree from either a JSON or passed values. Only include first value for json.
-	 * @param aJson If given as a JSON, just populate this, otherwise set to null
+	 * Create degree from either
 	 * @param aName Name of major 
 	 * @param aRequiredCourses List of required courses
-	 * @param aRequiredCredits Number of required credits, defaults to adding them up 
+	 * @param aRequiredCredits Number of required credits
 	 */
-	constructor(aJson: string, aName?: string, aRequiredCourses?: Course[], aRequiredCredits?: number)
+	constructor(aName: string, aRequiredCredits: number, aRequiredCourses: Course[])
 	{
-		// Check if theres is enough arguments to not use json 
-		if (aRequiredCourses == undefined)
-		{
-			this.makeDegreeFromJSON(aJson);
-		}
-		// It then must be a created from variables 
-		else 
-		{
-			this.makeDegreeFromVariables(aName, aRequiredCourses, aRequiredCredits);
-		}
-	}
-
-	/**
-	 * Make degree from json 
-	 * @param aJson A json
-	 */
-	private makeDegreeFromJSON(aJson: string): void
-	{
-		// Parse the JSON string 
-		var json = JSON.parse(aJson);
-
 		// Add the attributes to the degree
-		this.theName            = json.aName;
-		this.theRequiredCourses = json.aRequiredCourses;
-		this.updateCredits(json.aRequiredCredits);
-	}
-
-	/**
-	 * Make degree from values
-	 * @param aName Name of major 
-	 * @param aRequiredCourses List of required courses
-	 * @param aRequiredCredits Number of required credits, defaults to adding them up
-	 */
-	private makeDegreeFromVariables(aName: string, aRequiredCourses: Course[], 
-			aRequiredCredits: number = 0): void
-	{
 		this.theName            = aName;
 		this.theRequiredCourses = aRequiredCourses;
-		this.updateCredits(aRequiredCredits);
+		this.theRequiredCredits = aRequiredCredits;
 	}
 
 	/**
-	 * This updates the credits. If not supplied it is added from the course list 
-	 * @param aRequiredCredits 
+	 * Make degree from JSON
+	 * @param aJson A json to create the degree from 
 	 */
-	private updateCredits(aRequiredCredits: number): void
+	static fromJson(aJson: IDegree): Degree
 	{
-		// Go through and count the number of credits
-		if (aRequiredCredits == 0)
+		// List for created objects, not json
+		let reqCourseList: Course[];
+
+		// Loop through and create all the courses
+		for (let courseItem of aJson.theRequiredCourses)
 		{
-			for (let course of this.theRequiredCourses)
-			{
-				this.theRequiredCredits += course.theCredits;
-			}
+			reqCourseList.push(Course.fromJson(courseItem));
 		}
-		else
+
+		// Call the constructor 
+		return new Degree(aJson.theName, aJson.theRequiredCredits, reqCourseList);
+	}
+
+	/**
+	 * Converts the Course to a Json 
+	 */
+	public toJson(): IDegree
+	{
+		// Create json from current attributes
+		let json: IDegree =
+			{
+				"theName":            this.theName,
+				"theRequiredCredits": this.theRequiredCredits,
+				"theRequiredCourses": this.theRequiredCourses
+			};
+			
+		return json;
+	}
+
+	/**
+	 * Add a required course to the degree
+	 * @param aNewReqCourse to add to the required course list
+	 */
+	public addPreReq(aNewReqCourse: Course | Course[]): void 
+	{
+		// Create course array
+		let courseList: Course[] = [];
+
+		// If it's a single item, make it an array 
+		if (aNewReqCourse instanceof Course)
 		{
-			this.theRequiredCredits = aRequiredCredits;
+			courseList[0] = aNewReqCourse;
+		}
+		// It's an array, so just set it equal to our new array
+		else 
+		{
+			courseList = aNewReqCourse;
+		}
+
+		// Loop through the list and add them 
+		for (let courseItem of courseList)
+		{
+			// Add the semester to overall list 
+			this.theRequiredCourses.push(courseItem);
 		}
 	}
 

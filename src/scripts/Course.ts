@@ -1,87 +1,124 @@
 /**
- * Contains all information about a course 
- * TODO: toJSON()
+ * Defines a Course 
  */
-export class Course
+export interface ICourse
 {
-	// From UF
+	theName: string;
+	theID: string;
+	theCredits: number;
+	theProfessors: string[];
+	theDescription: string;
+	thePreReqs: Course[];
+	theDifficultyRating: number;
+}
+
+/**
+ * Contains all information about a course 
+ */
+export class Course implements ICourse
+{
+	// From database
 	public theName: string;
 	public theID: string;
-	public theDescription: string;
 	public theCredits: number;
 	public theProfessors: string[];
-	public theDifficultyRating: number;
+	public theDescription: string;
 	public thePreReqs: Course[];
+	public theDifficultyRating: number;
 	// TODO: PostReqs?, Concurrent?, Completed?, notes?
 
 	/**
-	 * Creates a course from either a JSON or passed values. Only include first value for json.
-	 * @param aJson If given as a json, just populate this parameter, otherwise set to null
+	 * Creates a course 
 	 * @param aName Class name
 	 * @param anID Course number
-	 * @param aDescription Course description 
 	 * @param aCredits Number of credits for class
 	 * @param aProfessors List of professors who have taught the class
-	 * @param aDifficultyRatings Difficulty based of course evaluations 
+	 * @param aDescription Course description 
 	 * @param aPreReqs Prerequisites for this course, defaults to []
-	 * TODO: May not be the best methodology, but works for now.
+	 * @param aDifficultyRatings Difficulty based of course evaluations 
 	 */
-	constructor(aJson: string, aName?: string, anID?: string, aDescription?: string, 
-			aCredits?: number, aProfessors?: string[], aDifficultyRatings?: number, aPreReqs?: Course[])
+	constructor(aName: string, anID: string, aCredits: number, aProfessors: string[], 
+			aDescription: string, aPreReqs: Course[], aDifficultyRatings: number)
 	{
-		// Check if there are enough parameters to create the class
-		if (aDifficultyRatings == undefined)
-		{
-			this.makeCourseFromJSON(aJson);
-		}
-		// It then must be a created from variables 
-		else 
-		{
-			this.makeCourseFromVariables(aName, anID, aDescription, aCredits, aProfessors, 
-					aDifficultyRatings, aPreReqs);
-		}
+		// Add the attributes to the course
+		this.theName             = aName;
+		this.theID               = anID;
+		this.theCredits          = aCredits;
+		this.theProfessors       = aProfessors;
+		this.theDescription      = aDescription;
+		this.thePreReqs          = aPreReqs;
+		this.theDifficultyRating = aDifficultyRatings;
 	}
 
 	/**
 	 * Make course object from JSON
-	 * @param aJson Json to create course from 
+	 * @param aJson A json to create the course from 
 	 */
-	private makeCourseFromJSON(aJson): void
+	static fromJson(aJson: ICourse): Course
 	{
 		// Parse the JSON string 
-		var json = JSON.parse(aJson);
+		// let json = JSON.parse(aJson);
 
-		// Add the attributes to the course 
-		this.theName              = json.theName;
-		this.theID                = json.theID;
-		this.theDescription       = json.theDescription;
-		this.theCredits           = json.theCredits;
-		this.theProfessors        = json.theProfessors;
-		this.theDifficultyRating  = json.theDifficultyRatings;
-		this.thePreReqs           = json.thePreReqs;
+		// List for created objects, not json
+		let preReqList: Course[];
+
+		// Loop through and create all the courses
+		for (let courseItem of aJson.thePreReqs)
+		{
+			preReqList.push(Course.fromJson(courseItem));
+		}
+
+		// Call the constructor 
+		return new Course(aJson.theName, aJson.theID, aJson.theCredits, aJson.theProfessors, 
+				aJson.theDescription, preReqList, aJson.theDifficultyRating);
 	}
 
 	/**
-	 * Make course object from the parameters
-	 * @param aName Class name 
-	 * @param anID Course number
-	 * @param aDescription Course description 
-	 * @param aCredits Number of credits for class
-	 * @param aProfessors List of professors who have taught the class
-	 * @param aDifficultyRatings Difficulty based of course evaluations 
-	 * @param aPreReqs Prerequisites for this course, defaults to []
+	 * Converts the Course to a Json 
 	 */
-	private makeCourseFromVariables(aName: string, anID: string, aDescription: string, 
-			aCredits: number, aProfessors: string[], aDifficultyRatings: number, 
-			aPreReqs: Course[] = []): void
+	public toJson(): ICourse
 	{
-		this.theName              = aName;
-		this.theID                = anID;
-		this.theDescription       = aDescription;
-		this.theCredits           = aCredits;
-		this.theProfessors        = aProfessors;
-		this.theDifficultyRating  = aDifficultyRatings;
-		this.thePreReqs           = aPreReqs;
+		// Create json from current attributes
+		let json: ICourse = 
+			{
+				"theName":             this.theName,
+				"theID":               this.theID,
+				"theCredits":          this.theCredits,
+				"theProfessors":       this.theProfessors,
+				"theDescription":      this.theDescription,
+				"thePreReqs":          this.thePreReqs,
+				"theDifficultyRating": this.theDifficultyRating
+			};
+
+		return json;	
+	}
+
+	/**
+	 * Add a prerequisites to the course
+	 * @param aNewPreReq Course to add to the prerequisite list
+	 */
+	public addPreReq(aNewPreReq: Course | Course[]): void 
+	{
+		// Create course array
+		let courseList: Course[] = [];
+
+		// If it's a single item, make it an array 
+		if (aNewPreReq instanceof Course)
+		{
+			courseList[0] = aNewPreReq;
+		}
+		// It's an array, so just set it equal to our new array
+		else 
+		{
+			courseList = aNewPreReq;
+		}
+
+		// Loop through the list and add them 
+		for (let courseItem of courseList)
+		{
+			// Add the semester to overall list 
+			this.thePreReqs.push(courseItem);
+		}
 	}
 
 }
