@@ -226,8 +226,8 @@ var dummyData = JSON.stringify(
 );
 
 ReactDOM.render(
-  <Hello word="World!"/>,
-  // <OverallScheduleView aSchedule={dummyData}/>,
+  // <Hello word="World!"/>
+  <OverallScheduleView aSchedule={dummyData}/>,
   document.getElementById("root")
 );
 

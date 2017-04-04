@@ -51,33 +51,42 @@ export class OverallSchedule
 	 * Make overall schedule object from JSON
 	 * @param aJson A json to create the overall schedule from 
 	 */
-	static fromJson(aJson: IOverallSchedule): OverallSchedule
+	static fromJson(aJson: string): OverallSchedule
 	{
+		// Parse the passed json 
+		let json = JSON.parse(aJson);
+
 		// List for created objects, not json
 		let majorList: Degree[];
 		let minorList: Degree[];
 		let semesterList: Semester[];
 
+		console.log(json);
+
+		console.log(typeof(json.theMajors[0]));		
+		
+		
 		// Loop through and create all the majors
-		for (let majorItem of aJson.theMajors)
+		// for (let majorItem of json.theMajors)
+		for (let i = 0; i < json.theMajors.length; i++)
 		{
-			majorList.push(Degree.fromJson(majorItem));
+			majorList.push(Degree.fromJson(json.theMajors[i]));
 		}
 
 		// Loop through and create all the minors
-		for (let minorItem of aJson.theMinors)
+		for (let minorItem of json.theMinors)
 		{
 			minorList.push(Degree.fromJson(minorItem));
 		}
 
 		// Loop through and create all the semesters
-		for (let semesterItem of aJson.theSemesters)
+		for (let semesterItem of json.theSemesters)
 		{
 			semesterList.push(Semester.fromJson(semesterItem));
 		}
 
 		// Call the constructor 
-		return new OverallSchedule(majorList, minorList, semesterList);
+		return new OverallSchedule(json.theMajors, json.theMinors, json.theSemesters);
 	}
 
 	/**
