@@ -112,13 +112,14 @@ def fetch_prereqs():
     with open("prereq_all.json") as infile:
         for line in infile:
             if "CREDITS" in line:
-                print("success");
-                print(n);
-                n = n + 1;
-            else
-                print("not found");
-                print(n);
-                n = n + 1;
+                if "PREREQS" in line:
+                    print("success");
+                    print(n);
+                    n = n + 1;
+                else:
+                    print("not found");
+                    print(n);
+                    n = n + 1;
 
     # Throws away most data, which were unmatched lines defined by NoneType.
     # for element in testlist:
