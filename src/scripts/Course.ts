@@ -10,6 +10,7 @@ export interface ICourse
 	theDescription: string;
 	thePreReqs: Course[];
 	theDifficultyRating: number;
+	// Should be called InterCourse
 }
 
 /**
@@ -51,22 +52,19 @@ export class Course implements ICourse
 	}
 
 	/**
-	 * Make course object from JSON
+	 * Make course object from from a parsed JSON
 	 * @param aJson A json to create the course from 
 	 */
 	static fromJson(aJson: ICourse): Course
 	{
-		// Parse the JSON string 
-		// let json = JSON.parse(aJson);
-
 		// List for created objects, not json
-		let preReqList: Course[];
+		let preReqList: Course[] = [];		
 
 		// Loop through and create all the courses
 		for (let courseItem of aJson.thePreReqs)
-		{
+		{			
 			preReqList.push(Course.fromJson(courseItem));
-		}
+		}		
 
 		// Call the constructor 
 		return new Course(aJson.theName, aJson.theID, aJson.theCredits, aJson.theProfessors, 

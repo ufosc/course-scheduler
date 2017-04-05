@@ -35,25 +35,22 @@ export class Degree implements IDegree
 	}
 
 	/**
-	 * Make degree from JSON
+	 * Make degree from from a parsed JSON
 	 * @param aJson A json to create the degree from 
 	 */
-	static fromJson(aJson: string): Degree
-	{
-		// Parse the passed json 
-		let json: IDegree = JSON.parse(aJson);
-
+	static fromJson(aJson: IDegree): Degree
+	{		
 		// List for created objects, not json
-		let reqCourseList: Course[];
+		let reqCourseList: Course[] = [];
 
 		// Loop through and create all the courses
-		for (let courseItem of json.theRequiredCourses)
+		for (let courseItem of aJson.theRequiredCourses)
 		{
 			reqCourseList.push(Course.fromJson(courseItem));
 		}
 
 		// Call the constructor 
-		return new Degree(json.theName, json.theRequiredCredits, reqCourseList);
+		return new Degree(aJson.theName, aJson.theRequiredCredits, reqCourseList);
 	}
 
 	/**

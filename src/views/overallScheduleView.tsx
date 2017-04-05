@@ -1,23 +1,31 @@
 // Display for the whole schedule 
 import * as React from "react";
 import {OverallSchedule, IOverallSchedule} from "../scripts/OverallSchedule"
+import SemesterView from "./semesterView"
 
 class OverallScheduleView extends React.Component<any, any> {
 
 	constructor(props: any) {
     super(props);
-		// this.state = { aSchedule: OverallSchedule.fromJson(this.props.aSchedule) };
-		this.state = { aSchedule: JSON.parse(this.props.aSchedule) };
-
-		console.log(this.state.aSchedule instanceof Object);
-		
+		// Convert the passed data to a parsed JSON make it an OverallSchedule
+		this.state = { aSchedule: OverallSchedule.fromJson(JSON.parse(this.props.aSchedule))};
   }
 
   render() 
 	{
+		let semesterList = this.state.aSchedule.theSemesters.map(function(aSemester)
+			{
+				return <SemesterView aSemester={aSemester}/>;
+			})
+
 		return(
 		<div>
-			{this.state.aSchedule.theMajors[0].theName}
+			<p>Major: {this.state.aSchedule.theMajors[0].theName}</p>
+			<p>Minor: {this.state.aSchedule.theMinors[0].theName}</p>
+			<p>Semesters:</p>
+			<ul>
+				{semesterList}
+			</ul>
 		</div>
 		);
 
@@ -25,13 +33,3 @@ class OverallScheduleView extends React.Component<any, any> {
 }
 
 export default OverallScheduleView;
-
-/*let semesterList = this.props.theSchedule.theSemesters.map(function(aSemester)
-	{
-		//return <SemesterView theSemesters=aSemester/>; // Should be a constructor 
-	})
-return (
-	<ul>
-		{semesterList}
-	</ul>
-)*/

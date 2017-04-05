@@ -58,17 +58,19 @@ export class Semester
 		this.theCredits = 0;
 		this.theYear    = aYear;
 		this.theSeason  = aSeason;
+		this.theCourses = [];
 		this.addCourse(aCourses);
+		console.log("The credits are now " + this.theCredits);
 	}
 
 	/**
-	 * Make semester object from JSON
+	 * Make semester object from a parsed JSON
 	 * @param aJson A json to create the semester from 
 	 */
 	static fromJson(aJson: ISemester): Semester
 	{
 		// List for created objects, not json
-		let courseList: Course[];
+		let courseList: Course[] = [];
 
 		// Loop through and create all the courses
 		for (let courseItem of aJson.theCourses)
@@ -121,7 +123,7 @@ export class Semester
 
 		// Loop through the list and add them 
 		for (let courseItem of courseList)
-		{
+		{			
 			// Add the semester to overall list 
 			this.theCourses.push(courseItem);
 

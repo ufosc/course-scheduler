@@ -41,6 +41,10 @@ export class OverallSchedule
 	 */
 	constructor(aMajor: Degree[], aMinor: Degree[] = [], aSemesters: Semester[] = [])
 	{
+		// Initialize values 
+		this.theMajors    = [];
+		this.theMinors    = [];
+		this.theSemesters = [];
 		// Add the attributes to the overall schedule, each calls an update
 		this.addMajor(aMajor);
 		this.addMinor(aMinor);
@@ -48,45 +52,36 @@ export class OverallSchedule
 	}
 
 	/**
-	 * Make overall schedule object from JSON
+	 * Make overall schedule object from a parsed JSON
 	 * @param aJson A json to create the overall schedule from 
 	 */
-	static fromJson(aJson: string): OverallSchedule
+	static fromJson(aJson: IOverallSchedule): OverallSchedule
 	{
-		// Parse the passed json 
-		let json = JSON.parse(aJson);
-
 		// List for created objects, not json
-		let majorList: Degree[];
-		let minorList: Degree[];
-		let semesterList: Semester[];
-
-		console.log(json);
-
-		console.log(typeof(json.theMajors[0]));		
-		
+		let majorList: Degree[]      = [];
+		let minorList: Degree[]      = [];
+		let semesterList: Semester[] = [];
 		
 		// Loop through and create all the majors
-		// for (let majorItem of json.theMajors)
-		for (let i = 0; i < json.theMajors.length; i++)
-		{
-			majorList.push(Degree.fromJson(json.theMajors[i]));
+		for (let majorItem of aJson.theMajors)
+		{				
+			majorList.push(Degree.fromJson(majorItem));
 		}
 
 		// Loop through and create all the minors
-		for (let minorItem of json.theMinors)
-		{
+		for (let minorItem of aJson.theMinors)
+		{			
 			minorList.push(Degree.fromJson(minorItem));
 		}
 
 		// Loop through and create all the semesters
-		for (let semesterItem of json.theSemesters)
+		for (let semesterItem of aJson.theSemesters)
 		{
 			semesterList.push(Semester.fromJson(semesterItem));
 		}
 
 		// Call the constructor 
-		return new OverallSchedule(json.theMajors, json.theMinors, json.theSemesters);
+		return new OverallSchedule(aJson.theMajors, aJson.theMinors, aJson.theSemesters);
 	}
 
 	/**
