@@ -62,11 +62,13 @@ def fetch_prereqs():
     course_list = []
     prelim_prereq_list = []
     prereq_list = []
+    testlist = []
 
     # Performs a regular expression search on the database file.
     with open('db.json') as database_json: 
     	for line in database_json:
-    	    prelim_course_list.append(re.search(r'[A-Z]{3}[0-9]{4}[A-Z]*', line))
+            if "code" in line:
+    	        prelim_course_list.append(re.search(r'[A-Z]{3}[0-9]{4}[A-Z]*', line))
 
     # Throws away most data, which were unmatched lines defined by NoneType.
     for element in prelim_course_list:
