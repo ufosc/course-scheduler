@@ -97,7 +97,9 @@ def fetch_prereqs():
                 if "Prereq:" in line:
                     print("success");
                     print(n);
-                    prereq_list.append(re.search(r'(?<=Prereq: ).*?(?=\")', line))
+                    result = re.search(r'(?<=Prereq: ).*?(?=\")', line)
+                    result.group();
+                    prereq_list.append(result);
                     n += 1;
                 else:
                     print("not found");
