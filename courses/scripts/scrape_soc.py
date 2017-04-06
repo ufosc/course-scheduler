@@ -108,13 +108,10 @@ def fetch_prereqs():
 
     # Actually appends the relevant string to 'db.json' after the 'code' attribute of a course.
     course_index = 0
-    with open ('db.json', 'w+') as database_file:
+    with open ('db.json', 'a') as database_file:
         for line in database_file:
-            if "code" in line:
-                print(course_index)
-                database_file.write("\n")
-                database_file.write("prereq: " + prereq_list[course_index])
-                course_index += 1;
+            print(course_index)
+            course_index = course_index + 1;
     database_file.close()
 
 def write_db(course_list, kind='json', path='.', separator=','):
