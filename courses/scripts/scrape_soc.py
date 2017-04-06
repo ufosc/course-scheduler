@@ -103,7 +103,7 @@ def fetch_prereqs():
 
     # Displays the prereq_course_list for testing purposes.
     with open('prereq_courses.json', 'w+') as prereq_courses_file:
-        json.dump(prereq_courses_file, prereq_courses_file, indent = 4)
+        json.dump(prereq_list, prereq_courses_file, indent = 4)
     prereq_courses_file.close()
 
     # Actually appends the relevant string to 'db.json' after the 'code' attribute of a course.
