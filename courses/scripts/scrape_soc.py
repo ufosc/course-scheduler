@@ -2,6 +2,7 @@
 import argparse
 import json
 import os
+import fileinput
 from progressbar import ProgressBar, Percentage, Bar, AdaptiveETA, Timer, Counter, FormatLabel
 import requests
 # Needed for using regular expressions.
@@ -98,25 +99,21 @@ def fetch_prereqs():
                 else:
                     prereq_list.append("null")
             if "[]," in line:
-            	prereq_list.append("no data recieved, treat as null")
+            	prereq_list.append("no data")
     prereq_all_file.close()
 
     # Displays the prereq_course_list for testing purposes.
     with open('prereq_courses.json', 'w+') as prereq_courses_file:
         json.dump(prereq_list, prereq_courses_file, indent = 4)
     prereq_courses_file.close()
-
+     
     # Actually appends the relevant string to 'db.json' after the 'code' attribute of a course.
     course_index = 0
-    with open ('db.json') as database_file:
-        for line in database_file:
-            if "code" in line:
-                print (course_index)
-                print ("success!")
-                course_index = course_index + 1;
-
-    database_file.close()
-
+    for line in fileinput.FileInput(r'db.json', inplace=1):
+        if "code" in line:
+            line = line.replace(line, line + "        prereq: \"" + prereq_list[course_index] + "\",\n")
+            course_index = course_index + 1;
+    
 def write_db(course_list, kind='json', path='.', separator=','):
     """
     Writes the JSON array to a database.
@@ -125,7 +122,7 @@ def write_db(course_list, kind='json', path='.', separator=','):
     
     # Name the output file is called changed temporarily for testing.
     out_path = os.path.join('db.' + script_dir + kind)
-    with open(out_path, 'w+') as outfile:
+    with open(out_path, 'a+') as outfile:
         json.dump(course_list, outfile, indent=4)
 
 if __name__ == '__main__':
