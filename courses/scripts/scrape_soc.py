@@ -78,7 +78,7 @@ def fetch_prereqs():
          course_list.append(element)
     
     # Queries the UF.ONE API for the relevant JSON page.
-    course_index = 0;
+    course_index = 1;
     for element in course_list:
     	COURSE_PREREQ_QUERY = 'https://one.uf.edu/apix/soc/cdesc/' + element
     	print (course_index, ":", COURSE_PREREQ_QUERY)
@@ -90,7 +90,7 @@ def fetch_prereqs():
         json.dump(prelim_prereq_list, outfile, indent = 4)
        
     # Append to the original db.json by adding the strings from prereq_string_list.
-    n = 0;
+    n = 1;
     with open("prereq_all.json") as infile:
         for line in infile:
             if "CREDITS" in line:
@@ -98,8 +98,7 @@ def fetch_prereqs():
                     print("success");
                     print(n);
                     result = re.search(r'(?<=Prereq: ).*?(?=\")', line)
-                    result.group();
-                    prereq_list.append(result);
+                    prereq_list.append(result.group(0));
                     n += 1;
                 else:
                     print("not found");
@@ -109,7 +108,7 @@ def fetch_prereqs():
             if "[]," in line:
             	print("no data recieved");
             	print(n);
-            	prereq_list.append("null")
+            	prereq_list.append("no data recieved, treat as null")
             	n += 1;
 
     # Displays the prereq_course_list.
