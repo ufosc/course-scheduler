@@ -62,9 +62,6 @@ def fetch_prereqs():
     scraped_course_list = []
     prelim_prereq_string_list = []
     prereq_string_list = []
-    testlist = []
-    finaltestlist = []
-    final_prereq_string_list = []
 
     # Performs a regular expression search on the database file.
     with open('db.json') as database_json: 
@@ -78,58 +75,36 @@ def fetch_prereqs():
        	 element = element.group()
          # print (element)
          scraped_course_list.append(element)
-
-    # print('length: ')
-    # print (len(scraped_course_list))
-
-    # Defines what we want from the queried webpage.
-    # desired_string = {'Prereq:': r'(?<=Prereq: ).*?(?=\")'}
     
     # Queries the UF.ONE API for the relevant JSON page.
+    course_index = 0;
     for element in scraped_course_list:
     	COURSE_PREREQ_QUERY = 'https://one.uf.edu/apix/soc/cdesc/' + element
-    	print (COURSE_PREREQ_QUERY)
-    	# Take a look at this. 
+    	print (course_index, ":", COURSE_PREREQ_QUERY)
     	r = requests.get(COURSE_PREREQ_QUERY)
-    	r.json()
     	prelim_prereq_string_list.append(r.json())
-   
-    # Prints the all COURSE_PREREQ_QUERY JSON data for all entire catalog.
-    # print(prelim_prereq_string_list)
+    	course_index += 1;
 
-    # Need to determine the type of prelim_prereq_string_list. 
-    print("type of prelim_prereq_string_list is: ", type(prelim_prereq_string_list), "type")
-
-    # This is for testing purposes. Writes the data to a file.
-    # test_dir = os.path.dirname(__file__)
-    # out_path = os.path.join('prereq.' + test_dir + 'json')
     with open("prereq_all.json", 'w+') as outfile:
         json.dump(prelim_prereq_string_list, outfile, indent = 4)
-
-    # Append to the original db.json by creating a new field in it, called prereqs, appended with the strings from prereq_string_list.
+       
+    # Append to the original db.json by adding the strings from prereq_string_list.
+    n = 0;
     with open("prereq_all.json") as infile:
         for line in infile:
-            testlist.append(re.search(r'(?<=Prereq: ).*?(?=\")', line))
-
-    # Throws away most data, which were unmatched lines defined by NoneType.
-    for element in testlist:
-        if element is not None:
-            # Converts each element from a _sre.SRE_Match type to a string type.
-            element = element.group()
-            # print (element)
-            finaltestlist.append(element)
-        else:
-            # Appends a 'null' for that course's prerequisties, indiciating that it does not have any.
-            finaltestlist.append('null');
-
-    print(finaltestlist)
-
-    with open('final_prereqs.json', 'w+') as outfile:
-        json.dump(finaltestlist, outfile, indent = 4)
-    
-    """
-    6b. Retrieve the prerequisties and append it to a newly created "prereqs" field in db.json. If there are no prerequisties, append 'NULL'.
-    """
+            if "CREDITS" in line:
+                if "Prereq:" in line:
+                    print("success");
+                    print(n);
+                    n += 1;
+                else:
+                    print("not found");
+                    print(n);
+                    n += 1;
+            if "[]," in line:
+            	print("no data recieved");
+            	print(n);
+            	n += 1;
 
 def write_db(course_list, kind='json', path='.', separator=','):
     """
