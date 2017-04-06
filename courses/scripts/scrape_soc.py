@@ -57,63 +57,65 @@ def fetch_courses(is_verbose=True):
 # Fetches the course prerequistes and appends them to a new field in the .json file.
 def fetch_prereqs():
     
-    # Creates a list to hold our scraped courses. 
+    # Creates some lists to hold intermediate data.
     prelim_course_list = []
     course_list = []
     prelim_prereq_list = []
     prereq_list = []
 
     # Performs a regular expression search on the database file.
-    with open('db.json') as database_json: 
-    	for line in database_json:
+    with open('db.json') as database_file: 
+    	for line in database_file:
             if "code" in line:
     	        prelim_course_list.append(re.search(r'[A-Z]{3}[0-9]{4}[A-Z]*', line))
+    database_file.close()
 
     # Throws away most data, which were unmatched lines defined by NoneType.
     for element in prelim_course_list:
        if element is not None:
        	 # Converts each element from a _sre.SRE_Match type to a string type.
        	 element = element.group()
-         # print (element)
          course_list.append(element)
     
     # Queries the UF.ONE API for the relevant JSON page.
-    course_index = 1;
     for element in course_list:
     	COURSE_PREREQ_QUERY = 'https://one.uf.edu/apix/soc/cdesc/' + element
-    	print (course_index, ":", COURSE_PREREQ_QUERY)
+    	print (COURSE_PREREQ_QUERY)
     	r = requests.get(COURSE_PREREQ_QUERY)
     	prelim_prereq_list.append(r.json())
-    	course_index += 1;
 
-    with open("prereq_all.json", 'w+') as outfile:
+    with open("prereq_all.json", 'w+') as prereq_all_file:
         json.dump(prelim_prereq_list, outfile, indent = 4)
+    prereq_all_file.close()
        
-    # Append to the original db.json by adding the strings from prereq_string_list.
-    n = 1;
-    with open("prereq_all.json") as infile:
-        for line in infile:
+    # Generate the strings to append to db.json.
+    with open("prereq_all.json") as prereq_all_file:
+        for line in prereq_all_file:
             if "CREDITS" in line:
                 if "Prereq:" in line:
-                    print("success");
-                    print(n);
                     result = re.search(r'(?<=Prereq: ).*?(?=\")', line)
                     prereq_list.append(result.group(0));
-                    n += 1;
                 else:
-                    print("not found");
-                    print(n);
                     prereq_list.append("null")
-                    n += 1;
             if "[]," in line:
-            	print("no data recieved");
-            	print(n);
             	prereq_list.append("no data recieved, treat as null")
-            	n += 1;
+    prereq_all_file.close()
 
-    # Displays the prereq_course_list.
-    with open('prereq_courses.json', 'w+') as outfile:
-        json.dump(prereq_list, outfile, indent = 4)
+    # Displays the prereq_course_list for testing purposes.
+    with open('prereq_courses.json', 'w+') as prereq_courses_file:
+        json.dump(prereq_courses_file, outfile, indent = 4)
+    prereq_courses_file.close()
+
+    # Actually appends the relevant string to 'db.json' after the 'code' attribute of a course.
+    course_index = 0
+    with open ('db.json', 'w+') as database_file:
+        for line in database_file:
+            if "code" in line:
+                print(course_index)
+                database_file.write("\n")
+                database_file.write("prereq: " + prereq_list[course_index])
+                course_index += 1;
+    database_file.close()
 
 def write_db(course_list, kind='json', path='.', separator=','):
     """
