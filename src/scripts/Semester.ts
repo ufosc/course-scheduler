@@ -60,7 +60,7 @@ export class Semester
 		this.theSeason  = aSeason;
 		this.theCourses = [];
 		this.addCourse(aCourses);
-		console.log("The credits are now " + this.theCredits);
+		// console.log("The Semester Constructor Credits " + this.theCredits);
 	}
 
 	/**
@@ -79,6 +79,9 @@ export class Semester
 		}
 
 		// Call the constructor 
+		// console.log("FromJson Semester");
+		// console.log(new Semester(aJson.theYear, aJson.theSeason, courseList));
+		
 		return new Semester(aJson.theYear, aJson.theSeason, courseList);
 	}
 

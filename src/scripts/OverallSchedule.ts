@@ -45,6 +45,8 @@ export class OverallSchedule
 		this.theMajors    = [];
 		this.theMinors    = [];
 		this.theSemesters = [];
+		this.theCredits   = 0;
+		this.theMessages  = [];
 		// Add the attributes to the overall schedule, each calls an update
 		this.addMajor(aMajor);
 		this.addMinor(aMinor);
@@ -77,11 +79,15 @@ export class OverallSchedule
 		// Loop through and create all the semesters
 		for (let semesterItem of aJson.theSemesters)
 		{
+			// console.log("Push Semester Item");
+			// console.log(Semester.fromJson(semesterItem));
 			semesterList.push(Semester.fromJson(semesterItem));
 		}
 
+		// console.log("Schedule Constructor");
+		// console.log(new OverallSchedule(majorList, minorList, semesterList));
 		// Call the constructor 
-		return new OverallSchedule(aJson.theMajors, aJson.theMinors, aJson.theSemesters);
+		return new OverallSchedule(majorList, minorList, semesterList);
 	}
 
 	/**
