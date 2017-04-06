@@ -62,7 +62,6 @@ def fetch_prereqs():
     course_list = []
     prelim_prereq_list = []
     prereq_list = []
-    testlist = []
 
     # Performs a regular expression search on the database file.
     with open('db.json') as database_json: 
@@ -113,7 +112,7 @@ def fetch_prereqs():
 
     # Displays the prereq_course_list.
     with open('prereq_courses.json', 'w+') as outfile:
-        json.dump(testlist, outfile, indent = 4)
+        json.dump(prereq_list, outfile, indent = 4)
 
 def write_db(course_list, kind='json', path='.', separator=','):
     """
