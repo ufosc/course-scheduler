@@ -4,17 +4,15 @@ import {Semester, ISemester} from "../scripts/Semester"
 import CourseView from "./courseView"
 import {Course} from "../scripts/Course"
 
+/**
+ * This displays a semester and all it's courses
+ */
 class SemesterView extends React.Component<any, any> 
 {
 	constructor(props: Semester) 
 	{
     super(props);
-		// console.log("Semester View 1");
-		// console.log(this.props.aSemester);
-		this.state = {aSemester: this.props.aSemester};		
-		// console.log("Semester View 2");
-		// console.log(this.state.aSemester);
-		
+		this.state = {aSemester: this.props.aSemester};
   }
 
   render() 

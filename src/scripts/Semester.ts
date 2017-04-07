@@ -8,7 +8,7 @@ const FULL_TIME_SPRING_CREDITS = 12;
 const FULL_TIME_FALL_CREDITS   = 12;
 
 // Types of semesters 
-enum Season
+export enum Season
 {
 	Spring,
 	Summer, 

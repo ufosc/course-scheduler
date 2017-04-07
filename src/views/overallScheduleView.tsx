@@ -4,6 +4,9 @@ import {OverallSchedule, IOverallSchedule} from "../scripts/OverallSchedule"
 import SemesterView from "./semesterView"
 import {Semester, ISemester} from "../scripts/Semester"
 
+/**
+ * This contains the whole schedule including semesters and courses 
+ */
 class OverallScheduleView extends React.Component<any, any> 
 {
 	constructor(props: IOverallSchedule) 

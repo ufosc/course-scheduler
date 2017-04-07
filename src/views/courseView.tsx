@@ -2,14 +2,15 @@
 import * as React from "react";
 import {Course, ICourse} from "../scripts/Course"
 
+/**
+ * Display a course and its information 
+ */
 class CourseView extends React.Component<any, any> 
 {
 	constructor(props: Course) 
 	{
     super(props);
 		this.state = {aCourse: this.props.aCourse};
-		// console.log("Course View");
-		// console.log(this.state.aCourse);
   }
 
   render() 

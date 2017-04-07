@@ -2,6 +2,7 @@
 import * as React from "react";
 import OverallScheduleView from "./overallScheduleView";
 import {OverallSchedule} from "../scripts/OverallSchedule"
+import CourseSearchView from "./courseSearchView"
 
 // Some data for testing 
 var dummyData = JSON.stringify(
@@ -223,13 +224,19 @@ var dummyData = JSON.stringify(
   }
 );
 
+/**
+ * This is the main layout of the page 
+ */
 class MainView extends React.Component<any, any> 
 {
 
   render() 
 	{
 		return(
-			<OverallScheduleView class="right" aSchedule={OverallSchedule.fromJson(JSON.parse(dummyData))}/>
+      <div>
+			  <OverallScheduleView class="right" aSchedule={OverallSchedule.fromJson(JSON.parse(dummyData))}/>
+        <CourseSearchView/>
+      </div>
 		);
 
   }
