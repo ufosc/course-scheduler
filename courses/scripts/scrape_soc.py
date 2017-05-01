@@ -106,13 +106,6 @@ def fetch_prereqs():
     with open('prereq_courses.json', 'w+') as prereq_courses_file:
         json.dump(prereq_list, prereq_courses_file, indent = 4)
     prereq_courses_file.close()
-     
-    # Actually appends the relevant string to 'db.json' after the 'code' attribute of a course.
-    course_index = 0
-    for line in fileinput.FileInput(r'db.json', inplace=1):
-        if "code" in line:
-            line = line.replace(line, line + "        prereq: \"" + prereq_list[course_index] + "\",\n")
-            course_index = course_index + 1;
     
 def write_db(course_list, kind='json', path='.', separator=','):
     """
